@@ -2,7 +2,7 @@
 #
 # À configurer une seule fois dans GitHub : Settings > Secrets and variables > Actions
 #   Secrets   : FTP_SERVER, FTP_USERNAME, FTP_PASSWORD  (fournis dans l'espace client LWS)
-#   Variable  : FTP_SERVER_DIR  (dossier racine du site chez LWS, par ex. ./htdocs/ — à vérifier)
+#   Variable (facultative) : FTP_SERVER_DIR — par défaut ./ car le compte FTP LWS s'ouvre déjà dans htdocs
 name: Déploiement LWS
 
 on:
@@ -38,4 +38,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || './htdocs/' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}

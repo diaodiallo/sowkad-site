@@ -39,7 +39,7 @@ Chaque modification poussée sur la branche `main` est construite puis envoyée 
 À configurer une fois dans GitHub, **Settings → Secrets and variables → Actions** :
 
 - Secrets : `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` (dans l'espace client LWS, rubrique FTP)
-- Variable : `FTP_SERVER_DIR`, le dossier racine du site chez LWS (par défaut `./htdocs/`, à vérifier dans l'espace client)
+- Variable facultative : `FTP_SERVER_DIR`. Par défaut `./`, car le compte FTP LWS s'ouvre déjà dans le dossier `htdocs` du site.
 
 Tant que les secrets ne sont pas renseignés, le workflow construit le site sans l'envoyer.
 
