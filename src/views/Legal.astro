@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site } from '../data/site';
+import { site, telHref } from '../data/site';
 import type { Lang } from '../i18n';
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
 }
 const { lang } = Astro.props;
 const mail = `<a href="mailto:${site.email}">${site.email}</a>`;
+const phones = site.phones.map((n) => `<a href="${telHref(n)}">${n}</a>`).join(' · ');
 
 const copy = {
   fr: {
@@ -16,7 +17,7 @@ const copy = {
     sections: [
       [
         'Éditeur du site',
-        `Sowkad, ${site.legalForm} au capital de ${site.capital} GNF<br />Siège social : ${site.address.fr}<br />RCCM : ${site.rccm} · NIF : ${site.nif}<br />Directeur de la publication : ${site.founder}<br />Contact : ${mail}`,
+        `Sowkad, ${site.legalForm.fr} au capital de ${site.capital} GNF<br />Siège social : ${site.address.fr}<br />Directeur de la publication : ${site.founder}<br />Contact : ${mail} · ${phones}`,
       ],
       ['Hébergement', "LWS (Ligne Web Services)<br />[Adresse de l'hébergeur, à reprendre de ses conditions générales]"],
       [
@@ -37,7 +38,7 @@ const copy = {
     sections: [
       [
         'Publisher',
-        `Sowkad, ${site.legalForm} with a share capital of ${site.capital} GNF<br />Registered office: ${site.address.en}<br />Trade register (RCCM): ${site.rccm} · Tax ID (NIF): ${site.nif}<br />Publication director: ${site.founder}<br />Contact: ${mail}`,
+        `Sowkad, ${site.legalForm.en} with a share capital of ${site.capital} GNF<br />Registered office: ${site.address.en}<br />Publication director: ${site.founder}<br />Contact: ${mail} · ${phones}`,
       ],
       ['Hosting', "LWS (Ligne Web Services)<br />[Host's address, as stated in its terms and conditions]"],
       [

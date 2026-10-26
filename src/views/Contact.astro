@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import FormStatus from '../components/FormStatus.astro';
-import { site } from '../data/site';
+import { site, telHref } from '../data/site';
 import { routes, ui, type Lang } from '../i18n';
 
 interface Props {
@@ -82,7 +82,10 @@ const copy = {
         </li>
         <li>
           <Icon name="phone" size={22} />
-          <div><span class="small muted">{copy.phone}</span><span>{site.phone}</span></div>
+          <div>
+            <span class="small muted">{copy.phone}</span>
+            {site.phones.map((n) => <a href={telHref(n)}>{n}</a>)}
+          </div>
         </li>
         <li>
           <Icon name="pin" size={22} />

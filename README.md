@@ -28,7 +28,7 @@ Le site existe en français (`/`) et en anglais (`/en/`). Chaque page est un mod
 | Photos | `src/assets/photos/` (optimisées automatiquement en WebP au build) |
 | Formulaires (envoi des e-mails) | `public/envoi.php` |
 
-Les éléments entre crochets `[...]` restent à compléter (adresse, téléphone, forme juridique, RCCM, NIF, durée de conservation des données).
+Les éléments entre crochets `[...]` restent à compléter : capital social, adresse de LWS, durée de conservation des données, crédit photo. Le RCCM et le NIF seront ajoutés après l’immatriculation.
 
 **CV téléchargeable** : déposer le PDF dans `public/cv-mamadou-diao-diallo.pdf` ; le bouton apparaît automatiquement sur la page du fondateur. Utiliser une version sans les coordonnées des personnes de référence.
 
