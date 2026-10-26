@@ -1,0 +1,26 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <span>© {year} Sowkad · {site.city} · <a href="/mentions-legales/">Mentions légales</a></span>
+    <span>Français · <span class="muted" title="Version anglaise en préparation">English</span></span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+  }
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 28px;
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+</style>

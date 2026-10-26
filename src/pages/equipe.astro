@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import FormStatus from '../components/FormStatus.astro';
+import { site } from '../data/site';
+import portraitBuste from '../assets/photos/portrait-buste.jpg';
+
+const profils = [
+  { title: 'Ingénieur·e DHIS2', text: 'Configuration, Tracker, tableaux de bord et administration serveur.' },
+  { title: 'Développeur·se interopérabilité', text: 'OpenFn, FHIR, API REST, JavaScript ou Python.' },
+  { title: 'Data scientist santé', text: 'Analyse épidémiologique, modélisation et visualisation.' },
+  { title: 'Spécialiste santé publique', text: 'Surveillance, suivi-évaluation, formation des équipes de district.' },
+];
+---
+
+<Base
+  title="Équipe et carrières"
+  description="L'équipe Sowkad et son réseau d'experts associés en santé numérique. Candidatures spontanées : ingénieurs DHIS2, développeurs, data scientists, spécialistes de santé publique.">
+  <section class="container page-head stack" style="--gap: 22px">
+    <p class="eyebrow">Équipe &amp; carrières</p>
+    <h1 class="display">Une équipe resserrée, un réseau d'experts africains.</h1>
+    <p class="lead">
+      Sowkad réunit, mission par mission, les compétences dont chaque projet a besoin, autour d'un noyau qui garantit
+      la qualité et la continuité.
+    </p>
+  </section>
+
+  <section class="container team-grid" style="padding-bottom: 80px">
+    <div class="card" style="padding: 20px">
+      <div class="photo" style="height: 280px; border-radius: var(--radius-sm)">
+        <Image src={portraitBuste} alt={`Portrait de ${site.founder}`} widths={[320, 640]} sizes="320px" style="object-position: 50% 20%" />
+      </div>
+      <div class="stack" style="--gap: 4px">
+        <strong class="team-name">{site.founder}</strong>
+        <span class="small muted">Fondateur · Directeur technique</span>
+        <span class="small" style="color: var(--ink-2)">DHIS2, interopérabilité, surveillance et IA.</span>
+      </div>
+    </div>
+    <!-- Ajouter ici les futurs membres de l'équipe, sur le même modèle que la carte ci-dessus. -->
+  </section>
+
+  <section class="section section--white">
+    <div class="container stack" style="--gap: 32px">
+      <div class="stack" style="--gap: 12px; max-width: 720px">
+        <p class="eyebrow">Profils recherchés</p>
+        <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">Rejoignez le réseau d'experts associés.</h2>
+      </div>
+      <div class="grid-cards" style="--min: 260px; --gap: 16px">
+        {
+          profils.map((p) => (
+            <div class="card" style="padding: 22px; gap: 8px">
+              <strong class="team-name">{p.title}</strong>
+              <span style="font-size: 15px; color: var(--ink-2)">{p.text}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section container split" id="candidature" style="--gap: 40px 64px">
+    <div class="stack" style="--gap: 14px; flex: 1 1 320px">
+      <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">Candidature spontanée</h2>
+      <p class="lead">
+        Présentez-vous en quelques lignes et joignez votre CV. Nous vous recontacterons lorsqu'une mission correspond
+        à votre profil.
+      </p>
+    </div>
+    <form class="form" action="/envoi.php" method="post" enctype="multipart/form-data" style="flex: 1.4 1 460px; min-width: 0">
+      <FormStatus />
+      <input type="hidden" name="type" value="candidature" />
+      <div class="form__row">
+        <label class="field">Nom complet<input type="text" name="nom" required autocomplete="name" /></label>
+        <label class="field">E-mail<input type="email" name="email" required autocomplete="email" /></label>
+      </div>
+      <label class="field"
+        >Profil
+        <select name="profil">
+          {profils.map((p) => <option>{p.title}</option>)}
+          <option>Autre</option>
+        </select>
+      </label>
+      <label class="field">Message<textarea name="message" rows="5" required></textarea></label>
+      <label class="field">CV (PDF, 5 Mo maximum)<input type="file" name="cv" accept="application/pdf,.pdf" /></label>
+      <label class="consent"
+        ><input type="checkbox" name="consentement" required /><span>J'accepte que mes données soient utilisées pour étudier
+        ma candidature, conformément aux <a href="/mentions-legales/">mentions légales</a>.</span></label
+      >
+      <label class="hp" aria-hidden="true">Ne pas remplir<input type="text" name="site_web" tabindex="-1" autocomplete="off" /></label>
+      <button type="submit" class="btn btn--primary" style="align-self: flex-start">Envoyer ma candidature</button>
+    </form>
+  </section>
+</Base>
+
+<style>
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 320px));
+    gap: 20px;
+  }
+  #candidature {
+    scroll-margin-top: 24px;
+  }
+</style>

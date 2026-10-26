@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import { domains, steps } from '../data/expertise';
+---
+
+<Base
+  title="Expertise"
+  description="Architecture DHIS2, interopérabilité OpenFn/FHIR, surveillance One Health, IA appliquée, évaluation d'applications et formation : les domaines d'expertise de Sowkad.">
+  <section class="container page-head stack" style="--gap: 22px">
+    <p class="eyebrow">Expertise</p>
+    <h1 class="display">Six domaines, un seul objectif : des données fiables, utilisées au bon niveau.</h1>
+    <p class="lead">
+      Nous intervenons sur l'ensemble du cycle d'un système d'information sanitaire, du diagnostic initial jusqu'à
+      l'appropriation par les équipes nationales.
+    </p>
+  </section>
+
+  <section class="container domains">
+    {
+      domains.map((d, i) => (
+        <article class="domain" id={d.id}>
+          <div class="domain__head stack" style="--gap: 12px">
+            <span class="domain__num">{String(i + 1).padStart(2, '0')}</span>
+            <h2 class="domain__title">{d.title}</h2>
+            <p class="domain__intro">{d.intro}</p>
+            <p class="mono">{d.tags}</p>
+          </div>
+          <div class="domain__body stack" style="--gap: 18px">
+            <ul class="list">
+              {d.items.map((item) => <li>{item}</li>)}
+            </ul>
+            <div class="example">
+              <span class="example__where">Exemple · {d.example.where}</span>
+              <span>{d.example.text}</span>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="container section--tight stack" style="--gap: 32px">
+    <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">Notre façon de travailler</h2>
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li class="card step">
+            <span class="step__num">Étape {i + 1}</span>
+            <strong class="step__title">{s.title}</strong>
+            <span class="step__text">{s.text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="container section--tight" style="padding-bottom: 96px">
+    <div class="cta">
+      <h2>Un besoin précis ? Décrivez-le, nous vous proposons une approche.</h2>
+      <a href="/contact/" class="btn btn--light">Nous contacter</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .domains {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+  }
+  .domain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 56px;
+    padding-block: 44px;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 24px;
+  }
+  .domain:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .domain__head {
+    flex: 1 1 380px;
+    min-width: 0;
+  }
+  .domain__body {
+    flex: 1.3 1 440px;
+    min-width: 0;
+  }
+  .domain__num {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent);
+  }
+  .domain__title {
+    font-size: clamp(26px, 2.4vw, 30px);
+    line-height: 1.15;
+  }
+  .domain__intro {
+    font-size: 17px;
+    color: var(--ink-2);
+  }
+  .example {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 15px;
+  }
+  .example__where {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .step {
+    padding: 22px;
+    gap: 8px;
+  }
+  .step__num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .step__title {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+  .step__text {
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+</style>

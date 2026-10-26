@@ -1,0 +1,77 @@
+---
+interface Props {
+  name: 'grid' | 'network' | 'pulse' | 'chart' | 'check' | 'people' | 'mail' | 'phone' | 'pin' | 'download';
+  size?: number;
+  color?: string;
+}
+const { name, size = 32, color = 'var(--accent)' } = Astro.props;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke={color}
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true">
+  {
+    name === 'grid' && (
+      <Fragment>
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'network' && (
+      <Fragment>
+        <circle cx="5" cy="12" r="2.5" />
+        <circle cx="19" cy="5" r="2.5" />
+        <circle cx="19" cy="19" r="2.5" />
+        <path d="M7.3 11l9.4-4.8M7.3 13l9.4 4.8" />
+      </Fragment>
+    )
+  }
+  {name === 'pulse' && <path d="M3 12h4l2-6 4 12 2-6h6" />}
+  {name === 'chart' && <path d="M4 19V9M10 19V5M16 19v-7M22 19H2" />}
+  {
+    name === 'check' && (
+      <Fragment>
+        <path d="M9 11l3 3 8-8" />
+        <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'people' && (
+      <Fragment>
+        <circle cx="9" cy="8" r="3.5" />
+        <path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" />
+        <path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.3c1.8.9 3 2.8 3 5.7" />
+      </Fragment>
+    )
+  }
+  {
+    name === 'mail' && (
+      <Fragment>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </Fragment>
+    )
+  }
+  {name === 'phone' && <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />}
+  {
+    name === 'pin' && (
+      <Fragment>
+        <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </Fragment>
+    )
+  }
+  {name === 'download' && <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />}
+</svg>

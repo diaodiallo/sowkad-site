@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Mentions légales" description="Mentions légales et politique de données personnelles du site Sowkad.">
+  <article class="container legal">
+    <h1 class="display" style="font-size: clamp(36px, 4.4vw, 54px)">Mentions légales</h1>
+
+    <section>
+      <h2>Éditeur du site</h2>
+      <p>
+        Sowkad, {site.legalForm} au capital de {site.capital} GNF<br />
+        Siège social : {site.address}<br />
+        RCCM : {site.rccm} · NIF : {site.nif}<br />
+        Directeur de la publication : {site.founder}<br />
+        Contact : <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </section>
+
+    <section>
+      <h2>Hébergement</h2>
+      <p>
+        LWS (Ligne Web Services)<br />
+        [Adresse de l'hébergeur, à reprendre de ses conditions générales]
+      </p>
+    </section>
+
+    <section>
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Les textes, visuels et le logo de Sowkad sont protégés. Toute reproduction sans autorisation écrite est
+        interdite. Les noms des organisations citées dans les références appartiennent à leurs propriétaires respectifs
+        et sont mentionnés à titre d'information sur les missions réalisées.
+      </p>
+    </section>
+
+    <section>
+      <h2>Données personnelles</h2>
+      <p>
+        Les informations envoyées via les formulaires de contact et de candidature servent uniquement à traiter votre
+        demande. Elles ne sont ni vendues ni transmises à des tiers, et sont conservées [durée]. Vous pouvez demander
+        leur consultation, leur correction ou leur suppression à <a href={`mailto:${site.email}`}>{site.email}</a>,
+        conformément à [la législation guinéenne applicable].
+      </p>
+    </section>
+
+    <section>
+      <h2>Cookies</h2>
+      <p>Ce site n'utilise aucun cookie de suivi ni outil de mesure d'audience.</p>
+    </section>
+
+    <section>
+      <h2>Crédits</h2>
+      <p>Photographies : [auteur] · Conception et développement : Sowkad</p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .legal {
+    max-width: 868px;
+    padding-block: 72px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .legal section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .legal h2 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .legal p {
+    line-height: 1.75;
+    color: var(--ink-2);
+  }
+</style>

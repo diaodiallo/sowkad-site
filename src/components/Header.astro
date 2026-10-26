@@ -1,0 +1,177 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="brand" aria-label="Sowkad — accueil">
+      <Logo />
+      <span class="brand__name">SOWKAD</span>
+    </a>
+
+    <nav aria-label="Navigation principale" class="nav">
+      <button type="button" class="nav__toggle" aria-expanded="false" aria-controls="menu-principal" hidden>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        <span>Menu</span>
+      </button>
+      <ul class="nav__list" id="menu-principal">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href="/contact/"
+            class="btn btn--primary nav__cta"
+            aria-current={isCurrent('/contact/') ? 'page' : undefined}>
+            Discuter d'un projet
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Menu mobile : sans JavaScript, la liste reste simplement affichée.
+  const toggle = document.querySelector<HTMLButtonElement>('.nav__toggle');
+  const nav = document.querySelector('.nav');
+  if (toggle && nav) {
+    toggle.hidden = false;
+    nav.classList.add('nav--js');
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    position: relative;
+    z-index: 10;
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 80px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand__name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+  }
+
+  .nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .nav__list a:not(.btn) {
+    color: var(--ink);
+    text-decoration: none;
+    padding-block: 6px;
+    border-bottom: 2px solid transparent;
+  }
+  .nav__list a:not(.btn):hover {
+    border-bottom-color: var(--line-strong);
+  }
+  .nav__list a[aria-current='page']:not(.btn) {
+    color: var(--accent);
+    font-weight: 600;
+    border-bottom-color: var(--accent);
+  }
+  .nav__cta {
+    min-height: 44px;
+    padding: 0 20px;
+    background: var(--ink);
+  }
+  .nav__cta[aria-current='page'] {
+    background: var(--accent);
+  }
+
+  .nav__toggle {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .nav--js .nav__toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nav--js .nav__list {
+      display: none;
+    }
+    .nav--js .nav__toggle[aria-expanded='true'] + .nav__list {
+      display: flex;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 8px var(--gutter) 20px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 12px 24px rgba(18, 32, 28, 0.08);
+      font-size: 17px;
+    }
+    .nav--js .nav__list li a:not(.btn) {
+      display: block;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .nav--js .nav__list a[aria-current='page']:not(.btn) {
+      border-bottom-color: var(--line);
+    }
+    .nav--js .nav__cta {
+      margin-top: 16px;
+      width: 100%;
+      min-height: 52px;
+    }
+  }
+</style>

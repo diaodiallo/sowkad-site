@@ -1,0 +1,154 @@
+---
+import Base from '../layouts/Base.astro';
+import { missions, referencesOrder, earlyMissions } from '../data/references';
+
+const list = referencesOrder.map((id) => missions.find((m) => m.id === id)!);
+const chtf = missions.find((m) => m.id === 'chtf')!;
+---
+
+<Base
+  title="Références"
+  description="Missions du fondateur de Sowkad : FHI 360 au Maroc, projet PReSeS-AOC en Guinée, ANSS, Madiro au Burundi et à Madagascar, JSI, GIZ, Digital Square et d'autres.">
+  <section class="container page-head stack" style="--gap: 22px">
+    <p class="eyebrow">Références</p>
+    <h1 class="display">Dix ans de missions auprès des systèmes de santé africains.</h1>
+    <p class="lead">
+      Les missions ci-dessous ont été conduites par le fondateur de Sowkad, comme consultant ou au sein des
+      organisations citées.
+    </p>
+  </section>
+
+  <section class="container refs">
+    {
+      list.map((m) => (
+        <article class="card ref" id={m.id}>
+          <div class="ref__head">
+            <div class="stack" style="--gap: 4px">
+              <span class="ref__meta">{m.meta}</span>
+              <h2 class="ref__title">{m.title}</h2>
+            </div>
+            {m.ongoing && <span class="badge">Mission en cours</span>}
+          </div>
+          <div class="ref__body">
+            <p class="ref__text">{m.text}</p>
+            {m.bullets && (
+              <ul class="list ref__side">
+                {m.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            )}
+            {m.stats && (
+              <dl class="ref__side ref__stats">
+                {m.stats.map((s) => (
+                  <div class="stat">
+                    <dd class="stat__value" style="color: var(--accent)">{s.value}</dd>
+                    <dt class="stat__label">{s.label}</dt>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+          {m.tags && <p class="mono">{m.tags}</p>}
+        </article>
+      ))
+    }
+
+    <article class="card ref">
+      <div class="stack" style="--gap: 4px">
+        <span class="ref__meta">Guinée · Burundi · Niger · 2018 — 2021</span>
+        <h2 class="ref__title">Missions de conseil en santé mondiale</h2>
+      </div>
+      <ul class="list early">
+        {earlyMissions.map((e) => <li><strong>{e.org}</strong> — {e.text}</li>)}
+      </ul>
+    </article>
+
+    <article class="card ref" id={chtf.id}>
+      <div class="ref__head">
+        <div class="stack" style="--gap: 4px">
+          <span class="ref__meta">{chtf.meta}</span>
+          <h2 class="ref__title">{chtf.title}</h2>
+        </div>
+        <span class="badge">Mission en cours</span>
+      </div>
+      <p class="ref__text" style="max-width: 860px">{chtf.text}</p>
+      <p class="mono">{chtf.tags}</p>
+    </article>
+  </section>
+
+  <section class="container" style="padding-block: 16px 96px">
+    <div class="cta cta--dark">
+      <h2>Vous préparez un projet similaire ?</h2>
+      <a href="/contact/" class="btn btn--light">Discutons-en</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .refs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 64px;
+  }
+  .ref {
+    padding: clamp(22px, 3vw, 36px);
+    gap: 20px;
+    scroll-margin-top: 24px;
+  }
+  .ref__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px 24px;
+  }
+  .ref__meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .ref__title {
+    font-size: clamp(22px, 2.2vw, 26px);
+    line-height: 1.2;
+  }
+  .ref__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 48px;
+  }
+  .ref__body .ref__text {
+    flex: 1.4 1 420px;
+    min-width: 0;
+  }
+  .ref__text {
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .ref__side {
+    flex: 1 1 300px;
+    min-width: 0;
+    font-size: 15px;
+  }
+  .ref__stats {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-content: start;
+  }
+  .ref__stats .stat__value {
+    margin: 0;
+    font-size: 30px;
+  }
+  .ref__stats .stat__label {
+    font-size: 13px;
+  }
+  .early {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px 40px;
+    font-size: 15px;
+  }
+</style>

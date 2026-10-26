@@ -1,0 +1,440 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { domains } from '../data/expertise';
+import { missions, homeOrder, countries, partners } from '../data/references';
+import { site } from '../data/site';
+
+import portraitStudio from '../assets/photos/portrait-studio.jpg';
+import portraitBuste from '../assets/photos/portrait-buste.jpg';
+import formation from '../assets/photos/formation.jpg';
+import bokeEquipes from '../assets/photos/boke-equipes.jpg';
+import bokeCentre from '../assets/photos/boke-centre-sante.jpg';
+import kindia from '../assets/photos/kindia-atelier-sbe.jpg';
+import freetown from '../assets/photos/freetown-visite.jpg';
+
+const homeMissions = homeOrder.map((id) => missions.find((m) => m.id === id)!);
+
+const terrain = [
+  { src: bokeEquipes, alt: 'Appui aux agents de santé sur la saisie des données à Boké', caption: 'Appui aux équipes de santé · Boké, Guinée, 2025', pos: '50% 50%' },
+  { src: bokeCentre, alt: 'Visite d’un centre de santé à Boké avec le personnel', caption: 'Visite d’un centre de santé · Boké, Guinée, 2025', pos: '50% 50%' },
+  { src: kindia, alt: 'Atelier de surveillance à base d’événements avec l’ANSS à Kindia', caption: 'Appui à l’ANSS Guinée · atelier SBE, Kindia, 2026', pos: '50% 35%' },
+  { src: freetown, alt: 'Équipe lors de la visite d’une formation sanitaire à Freetown', caption: 'Visite d’une formation sanitaire · Freetown, Sierra Leone, 2024', pos: '50% 60%' },
+];
+---
+
+<Base
+  title="Sowkad"
+  description="Sowkad accompagne les ministères de la Santé, les bailleurs et les ONG en Afrique : DHIS2, interopérabilité (OpenFn, FHIR), surveillance One Health et IA appliquée à la santé publique.">
+  <!-- HERO -->
+  <section class="container hero">
+    <div class="hero__text stack" style="--gap: 28px">
+      <p class="eyebrow">Conseil en santé numérique · {site.city}</p>
+      <h1 class="display">Des systèmes d'information sanitaire qui servent vraiment les décisions.</h1>
+      <p class="lead">
+        Fondé par {site.founder}, Sowkad accompagne les ministères de la Santé, les bailleurs et les ONG dans la
+        conception, l'interopérabilité et le déploiement national de leurs systèmes : DHIS2, OpenFn, FHIR,
+        surveillance One Health et IA appliquée à la santé publique.
+      </p>
+      <div class="btn-row">
+        <a href="/contact/" class="btn btn--primary">Parlons de votre projet</a>
+        <a href="/references/" class="btn btn--outline">Voir les références</a>
+      </div>
+      <dl class="hero__stats">
+        <div class="stat"><dt class="stat__label">ans d'expérience terrain</dt><dd class="stat__value">10+</dd></div>
+        <div class="stat"><dt class="stat__label">pays accompagnés</dt><dd class="stat__value">13</dd></div>
+        <div class="stat"><dt class="stat__label">professionnels formés</dt><dd class="stat__value">300+</dd></div>
+        <div class="stat"><dt class="stat__label">structures sur DHIS2 en Guinée</dt><dd class="stat__value">500+</dd></div>
+      </dl>
+    </div>
+    <figure class="hero__photo">
+      <Image
+        src={portraitStudio}
+        alt={`${site.founder}, fondateur de Sowkad`}
+        widths={[480, 760, 1100]}
+        sizes="(max-width: 900px) 100vw, 480px"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption>
+        <strong>{site.founder}</strong>
+        <span>Fondateur · Ingénieur santé numérique &amp; interopérabilité</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- PARTENAIRES -->
+  <section class="partners">
+    <div class="container partners__inner">
+      <p class="mono partners__label">Le fondateur a travaillé avec</p>
+      <ul class="partners__list">
+        {
+          partners.map((p) => (
+            <li>{p.url ? <a href={p.url} rel="noopener" target="_blank">{p.name}</a> : p.name}</li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section class="section container stack" style="--gap: 48px">
+    <div class="section-head">
+      <div class="stack" style="--gap: 14px; max-width: 680px">
+        <p class="eyebrow">Expertise</p>
+        <h2 class="h2">Du cahier des charges au déploiement national.</h2>
+      </div>
+      <p class="lead" style="max-width: 440px">
+        Nous couvrons tout le cycle : recueil des besoins, spécifications fonctionnelles, développement, tests
+        d'acceptation, formation et transfert aux équipes nationales.
+      </p>
+    </div>
+    <div class="grid-cards">
+      {
+        domains.map((d) => (
+          <article class="card">
+            <Icon name={d.icon} />
+            <h3 class="h3">{d.title}</h3>
+            <p class="muted-2">{d.summary}</p>
+            <p class="mono">{d.tags}</p>
+          </article>
+        ))
+      }
+    </div>
+    <a href="/expertise/" class="link-arrow">Détail de nos domaines d'expertise →</a>
+  </section>
+
+  <!-- TERRAIN -->
+  <section class="container stack terrain" style="--gap: 28px">
+    <div class="stack" style="--gap: 12px">
+      <p class="eyebrow">Sur le terrain</p>
+      <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">Au plus près des équipes qui utilisent les données.</h2>
+    </div>
+    <div class="grid-cards" style="--min: 260px; --gap: 16px">
+      {
+        terrain.map((t) => (
+          <figure class="terrain__item">
+            <div class="photo terrain__photo">
+              <Image src={t.src} alt={t.alt} widths={[400, 640, 900]} sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 300px" style={`object-position: ${t.pos}`} />
+            </div>
+            <figcaption class="small muted">{t.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="section section--dark">
+    <div class="container stack" style="--gap: 40px">
+      <div class="stack" style="--gap: 14px">
+        <p class="eyebrow">Références</p>
+        <h2 class="h2" style="color: #fff">Missions récentes</h2>
+      </div>
+      <ul class="missions">
+        {
+          homeMissions.map((m) => (
+            <li class="mission">
+              <span class="mission__period">{m.period}</span>
+              <div class="mission__who">
+                <strong>{m.homeTitle ?? m.title}</strong>
+                <span>{m.where}</span>
+              </div>
+              <p class="mission__text">{m.homeText}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="stack" style="--gap: 14px">
+        <p class="eyebrow" style="font-size: 12px">Pays d'intervention</p>
+        <ul class="chips">{countries.map((c) => <li class="chip">{c}</li>)}</ul>
+      </div>
+      <a href="/references/" class="link-arrow" style="color: var(--accent-light)">Toutes les références →</a>
+    </div>
+  </section>
+
+  <!-- FONDATEUR -->
+  <section class="section container split founder" style="--gap: 56px">
+    <div class="photo founder__photo">
+      <Image src={formation} alt={`${site.founder} animant une session de formation`} widths={[480, 760, 1100]} sizes="(max-width: 900px) 100vw, 520px" style="object-position: 30% 40%" />
+    </div>
+    <div class="founder__text stack" style="--gap: 22px">
+      <p class="eyebrow">Le fondateur</p>
+      <h2 class="h2" style="font-size: clamp(30px, 3.2vw, 44px)">{site.founder}</h2>
+      <p class="lead">
+        Ingénieur en santé numérique et interopérabilité, il a dirigé le premier déploiement national de DHIS2 en
+        Guinée et accompagne depuis plus de dix ans des programmes des ministères de la Santé en Afrique de l'Ouest, du
+        Centre et de l'Est. Il est titulaire d'un Master en Intelligence artificielle pour la santé publique
+        (Aix-Marseille Université).
+      </p>
+      <ul class="founder__creds">
+        <li>Administration serveur DHIS2, Université d'Oslo</li>
+        <li>FHIR Fundamentals &amp; Intermediate, HL7</li>
+        <li>Master IA pour la santé publique, AMU</li>
+      </ul>
+      <a href="/fondateur/" class="link-arrow">Lire le parcours complet →</a>
+    </div>
+  </section>
+
+  <!-- EQUIPE -->
+  <section class="section section--white">
+    <div class="container stack" style="--gap: 36px">
+      <div class="stack" style="--gap: 14px; max-width: 680px">
+        <p class="eyebrow">Équipe</p>
+        <h2 class="h2" style="font-size: clamp(30px, 3.2vw, 44px)">Une équipe qui grandit avec ses missions.</h2>
+      </div>
+      <div class="grid-cards" style="--min: 240px">
+        <div class="card" style="padding: 20px">
+          <div class="photo" style="height: 220px; border-radius: var(--radius-sm)">
+            <Image src={portraitBuste} alt={`Portrait de ${site.founder}`} widths={[320, 640]} sizes="(max-width: 640px) 100vw, 480px" style="object-position: 50% 5%" />
+          </div>
+          <div>
+            <strong class="team-name">{site.founder}</strong>
+            <p class="small muted">Fondateur · Directeur technique</p>
+          </div>
+        </div>
+        <div class="card card--dashed" style="justify-content: center; min-height: 280px">
+          <strong class="team-name" style="font-size: 20px">Rejoindre Sowkad</strong>
+          <p class="small" style="color: var(--ink-2)">
+            Ingénieur·e DHIS2, data scientist ou spécialiste en santé publique ? Nous constituons un réseau d'experts
+            en Afrique.
+          </p>
+          <a href="/equipe/#candidature" class="link-arrow small">Envoyer une candidature →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section container">
+    <div class="cta">
+      <div class="stack" style="--gap: 14px; flex: 999 1 420px">
+        <h2 style="font-size: clamp(28px, 3.4vw, 46px); line-height: 1.08">Un projet de digitalisation du système de santé ?</h2>
+        <p style="font-size: 18px; color: #e3f2ee">Évaluation, conception, interopérabilité ou déploiement : parlons-en.</p>
+      </div>
+      <div class="stack" style="--gap: 12px; flex: 1 1 260px">
+        <a href="/contact/" class="btn btn--light">Nous écrire</a>
+        <a href={`mailto:${site.email}`} class="small" style="color: #e3f2ee; text-align: center">{site.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 48px;
+    padding-block: 56px 72px;
+  }
+  .hero__text {
+    flex: 999 1 520px;
+    min-width: 0;
+    justify-content: center;
+  }
+  .hero__stats {
+    margin: 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 24px;
+  }
+  .hero__stats .stat {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+  .hero__stats dd {
+    margin: 0;
+  }
+  .hero__photo {
+    flex: 1 1 380px;
+    min-width: 0;
+    margin: 0;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: #dce7e2;
+    min-height: 640px;
+  }
+  .hero__photo :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 15%;
+  }
+  .hero__photo figcaption {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero__photo figcaption strong {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+  .hero__photo figcaption span {
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+
+  .partners {
+    background: var(--surface);
+    border-block: 1px solid var(--line);
+  }
+  .partners__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 40px;
+    padding-block: 32px;
+  }
+  .partners__label {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .partners__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 36px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    color: #3c4c47;
+  }
+  .partners__list a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .partners__list a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .muted-2 {
+    color: var(--ink-2);
+  }
+
+  .terrain {
+    padding-bottom: 96px;
+  }
+  .terrain__item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .terrain__photo {
+    height: 300px;
+    border-radius: 18px;
+  }
+
+  .missions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mission {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    padding-block: 26px;
+    border-top: 1px solid var(--dark-line);
+  }
+  .mission:last-child {
+    border-bottom: 1px solid var(--dark-line);
+  }
+  .mission__period {
+    flex: 0 0 140px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent-light);
+  }
+  .mission__who {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .mission__who strong {
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: #fff;
+  }
+  .mission__who span {
+    font-size: 15px;
+    color: var(--dark-muted);
+  }
+  .mission__text {
+    flex: 2 1 380px;
+    color: var(--dark-text);
+  }
+
+  .founder {
+    align-items: center;
+  }
+  .founder__photo {
+    flex: 1 1 360px;
+    min-width: 0;
+    height: 460px;
+    border-radius: 24px;
+  }
+  .founder__text {
+    flex: 999 1 460px;
+    min-width: 0;
+  }
+  .founder__creds {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px 24px;
+    font-size: 15px;
+  }
+  .founder__creds li::before {
+    content: '—';
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 10px;
+  }
+
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding-block: 32px 56px;
+      gap: 32px;
+    }
+    .hero__photo {
+      min-height: 520px;
+    }
+    .founder__photo {
+      height: 320px;
+    }
+  }
+</style>
