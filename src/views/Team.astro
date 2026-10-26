@@ -1,0 +1,160 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import FormStatus from '../components/FormStatus.astro';
+import { site } from '../data/site';
+import { routes, ui, type Lang } from '../i18n';
+import portraitBuste from '../assets/photos/portrait-buste.jpg';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const f = ui[lang].form;
+
+const copy = {
+  fr: {
+    title: 'Équipe et carrières',
+    eyebrow: 'Équipe & carrières',
+    description:
+      "L'équipe Sowkad et son réseau d'experts associés en santé numérique. Candidatures spontanées : ingénieurs DHIS2, développeurs, data scientists, spécialistes de santé publique.",
+    h1: "Une équipe resserrée, un réseau d'experts africains.",
+    lead: "Sowkad réunit, mission par mission, les compétences dont chaque projet a besoin, autour d'un noyau qui garantit la qualité et la continuité.",
+    portraitAlt: `Portrait de ${site.founder}`,
+    founderRole: 'Fondateur · Directeur technique',
+    founderFocus: 'DHIS2, interopérabilité, surveillance et IA.',
+    profilesEyebrow: 'Profils recherchés',
+    profilesH2: "Rejoignez le réseau d'experts associés.",
+    profils: [
+      ['Ingénieur·e DHIS2', 'Configuration, Tracker, tableaux de bord et administration serveur.'],
+      ['Développeur·se interopérabilité', 'OpenFn, FHIR, API REST, JavaScript ou Python.'],
+      ['Data scientist santé', 'Analyse épidémiologique, modélisation et visualisation.'],
+      ['Spécialiste santé publique', 'Surveillance, suivi-évaluation, formation des équipes de district.'],
+    ],
+    other: 'Autre',
+    applyH2: 'Candidature spontanée',
+    applyLead:
+      "Présentez-vous en quelques lignes et joignez votre CV. Nous vous recontacterons lorsqu'une mission correspond à votre profil.",
+    profile: 'Profil',
+    cvLabel: 'CV (PDF, 5 Mo maximum)',
+    consent: "J'accepte que mes données soient utilisées pour étudier ma candidature, conformément aux",
+    consentLink: 'mentions légales',
+    submit: 'Envoyer ma candidature',
+  },
+  en: {
+    title: 'Team and careers',
+    eyebrow: 'Team & careers',
+    description:
+      "Sowkad's team and its network of associate digital health experts. Open applications: DHIS2 engineers, developers, data scientists and public health specialists.",
+    h1: 'A small core team, a network of African experts.',
+    lead: 'For each assignment, Sowkad brings together the skills the project needs, around a core team that ensures quality and continuity.',
+    portraitAlt: `Portrait of ${site.founder}`,
+    founderRole: 'Founder · Technical Director',
+    founderFocus: 'DHIS2, interoperability, surveillance and AI.',
+    profilesEyebrow: "Who we're looking for",
+    profilesH2: 'Join our network of associate experts.',
+    profils: [
+      ['DHIS2 engineer', 'Configuration, Tracker, dashboards and server administration.'],
+      ['Interoperability developer', 'OpenFn, FHIR, REST APIs, JavaScript or Python.'],
+      ['Health data scientist', 'Epidemiological analysis, modelling and visualisation.'],
+      ['Public health specialist', 'Surveillance, monitoring and evaluation, district team training.'],
+    ],
+    other: 'Other',
+    applyH2: 'Open application',
+    applyLead: "Introduce yourself in a few lines and attach your CV. We'll get in touch when an assignment matches your profile.",
+    profile: 'Profile',
+    cvLabel: 'CV (PDF, 5 MB max)',
+    consent: 'I agree that my data may be used to review my application, in accordance with the',
+    consentLink: 'legal notice',
+    submit: 'Send my application',
+  },
+}[lang];
+---
+
+<Base lang={lang} page="team" title={copy.title} description={copy.description}>
+  <section class="container page-head stack" style="--gap: 22px">
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1 class="display">{copy.h1}</h1>
+    <p class="lead">{copy.lead}</p>
+  </section>
+
+  <section class="container team-grid" style="padding-bottom: 80px">
+    <div class="card" style="padding: 20px">
+      <div class="photo" style="height: 280px; border-radius: var(--radius-sm)">
+        <Image src={portraitBuste} alt={copy.portraitAlt} widths={[320, 640]} sizes="320px" style="object-position: 50% 20%" />
+      </div>
+      <div class="stack" style="--gap: 4px">
+        <strong class="team-name">{site.founder}</strong>
+        <span class="small muted">{copy.founderRole}</span>
+        <span class="small" style="color: var(--ink-2)">{copy.founderFocus}</span>
+      </div>
+    </div>
+    <!-- Ajouter ici les futurs membres de l'équipe, sur le même modèle que la carte ci-dessus. -->
+  </section>
+
+  <section class="section section--white">
+    <div class="container stack" style="--gap: 32px">
+      <div class="stack" style="--gap: 12px; max-width: 720px">
+        <p class="eyebrow">{copy.profilesEyebrow}</p>
+        <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">{copy.profilesH2}</h2>
+      </div>
+      <div class="grid-cards" style="--min: 260px; --gap: 16px">
+        {
+          copy.profils.map(([title, text]) => (
+            <div class="card" style="padding: 22px; gap: 8px">
+              <strong class="team-name">{title}</strong>
+              <span style="font-size: 15px; color: var(--ink-2)">{text}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section container split" id="candidature" style="--gap: 40px 64px">
+    <div class="stack" style="--gap: 14px; flex: 1 1 320px">
+      <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">{copy.applyH2}</h2>
+      <p class="lead">{copy.applyLead}</p>
+    </div>
+    <form class="form" action="/envoi.php" method="post" enctype="multipart/form-data" style="flex: 1.4 1 460px; min-width: 0">
+      <FormStatus lang={lang} />
+      <input type="hidden" name="type" value="candidature" />
+      <input type="hidden" name="lang" value={lang} />
+      <div class="form__row">
+        <label class="field">{f.name}<input type="text" name="nom" required autocomplete="name" /></label>
+        <label class="field">{f.email}<input type="email" name="email" required autocomplete="email" /></label>
+      </div>
+      <label class="field"
+        >{copy.profile}
+        <select name="profil">
+          {copy.profils.map(([title]) => <option>{title}</option>)}
+          <option>{copy.other}</option>
+        </select>
+      </label>
+      <label class="field">{f.message}<textarea name="message" rows="5" required></textarea></label>
+      <label class="field">{copy.cvLabel}<input type="file" name="cv" accept="application/pdf,.pdf" /></label>
+      <label class="consent"
+        ><input type="checkbox" name="consentement" required /><span
+          >{copy.consent} <a href={routes.legal[lang]}>{copy.consentLink}</a>.</span
+        ></label
+      >
+      <label class="hp" aria-hidden="true">{f.honeypot}<input type="text" name="site_web" tabindex="-1" autocomplete="off" /></label>
+      <button type="submit" class="btn btn--primary" style="align-self: flex-start">{copy.submit}</button>
+    </form>
+  </section>
+</Base>
+
+<style>
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 320px));
+    gap: 20px;
+  }
+  #candidature {
+    scroll-margin-top: 24px;
+  }
+</style>

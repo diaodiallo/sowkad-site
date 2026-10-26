@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const mail = `<a href="mailto:${site.email}">${site.email}</a>`;
+
+const copy = {
+  fr: {
+    title: 'Mentions légales',
+    description: 'Mentions légales et politique de données personnelles du site Sowkad.',
+    sections: [
+      [
+        'Éditeur du site',
+        `Sowkad, ${site.legalForm} au capital de ${site.capital} GNF<br />Siège social : ${site.address.fr}<br />RCCM : ${site.rccm} · NIF : ${site.nif}<br />Directeur de la publication : ${site.founder}<br />Contact : ${mail}`,
+      ],
+      ['Hébergement', "LWS (Ligne Web Services)<br />[Adresse de l'hébergeur, à reprendre de ses conditions générales]"],
+      [
+        'Propriété intellectuelle',
+        "Les textes, visuels et le logo de Sowkad sont protégés. Toute reproduction sans autorisation écrite est interdite. Les noms des organisations citées dans les références appartiennent à leurs propriétaires respectifs et sont mentionnés à titre d'information sur les missions réalisées.",
+      ],
+      [
+        'Données personnelles',
+        `Les informations envoyées via les formulaires de contact et de candidature servent uniquement à traiter votre demande. Elles ne sont ni vendues ni transmises à des tiers, et sont conservées [durée]. Vous pouvez demander leur consultation, leur correction ou leur suppression à ${mail}, conformément à [la législation guinéenne applicable].`,
+      ],
+      ['Cookies', "Ce site n'utilise aucun cookie de suivi ni outil de mesure d'audience."],
+      ['Crédits', 'Photographies : [auteur] · Conception et développement : Sowkad'],
+    ],
+  },
+  en: {
+    title: 'Legal notice',
+    description: 'Legal notice and personal data policy for the Sowkad website.',
+    sections: [
+      [
+        'Publisher',
+        `Sowkad, ${site.legalForm} with a share capital of ${site.capital} GNF<br />Registered office: ${site.address.en}<br />Trade register (RCCM): ${site.rccm} · Tax ID (NIF): ${site.nif}<br />Publication director: ${site.founder}<br />Contact: ${mail}`,
+      ],
+      ['Hosting', "LWS (Ligne Web Services)<br />[Host's address, as stated in its terms and conditions]"],
+      [
+        'Intellectual property',
+        "Sowkad's text, images and logo are protected. Any reproduction without written permission is prohibited. The names of organisations mentioned in the track record belong to their respective owners and are cited for information about the assignments carried out.",
+      ],
+      [
+        'Personal data',
+        `Information sent through the contact and application forms is used solely to handle your request. It is never sold or shared with third parties, and is kept for [period]. You can ask to access, correct or delete it by writing to ${mail}, in accordance with [applicable Guinean law].`,
+      ],
+      ['Cookies', 'This website uses no tracking cookies and no analytics tools.'],
+      ['Credits', 'Photography: [author] · Design and development: Sowkad'],
+    ],
+  },
+}[lang];
+---
+
+<Base lang={lang} page="legal" title={copy.title} description={copy.description}>
+  <article class="container legal">
+    <h1 class="display" style="font-size: clamp(36px, 4.4vw, 54px)">{copy.title}</h1>
+    {
+      copy.sections.map(([h, body]) => (
+        <section>
+          <h2>{h}</h2>
+          <p set:html={body} />
+        </section>
+      ))
+    }
+  </article>
+</Base>
+
+<style>
+  .legal {
+    max-width: 868px;
+    padding-block: 72px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .legal section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .legal h2 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .legal :global(p) {
+    line-height: 1.75;
+    color: var(--ink-2);
+  }
+</style>

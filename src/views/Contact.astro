@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import FormStatus from '../components/FormStatus.astro';
+import { site } from '../data/site';
+import { routes, ui, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const f = ui[lang].form;
+
+const copy = {
+  fr: {
+    title: 'Contact',
+    description:
+      "Contactez Sowkad pour un projet de santé numérique : DHIS2, interopérabilité, surveillance, IA, évaluation ou partenariat pour un appel d'offres.",
+    h1: 'Parlons de votre projet.',
+    lead: "Ministère, bailleur, ONG ou bureau d'études à la recherche d'un partenaire technique pour un appel d'offres : décrivez votre besoin, nous revenons vers vous avec une première approche.",
+    email: 'E-mail',
+    phone: 'Téléphone / WhatsApp',
+    address: 'Adresse',
+    org: 'Organisation',
+    country: 'Pays concerné',
+    need: 'Type de besoin',
+    message: 'Votre message',
+    besoins: [
+      'Architecture ou déploiement DHIS2',
+      'Interopérabilité des systèmes',
+      'Surveillance et alerte précoce',
+      'IA et analyse de données',
+      "Évaluation d'une application",
+      'Formation',
+      "Partenariat pour un appel d'offres",
+      'Autre',
+    ],
+    consent: "J'accepte que mes données soient utilisées pour répondre à ma demande, conformément aux",
+    consentLink: 'mentions légales',
+    submit: 'Envoyer',
+  },
+  en: {
+    title: 'Contact',
+    description:
+      'Contact Sowkad about a digital health project: DHIS2, interoperability, surveillance, AI, assessment or a partnership for a tender.',
+    h1: "Let's talk about your project.",
+    lead: "Ministry, donor, NGO or consulting firm looking for a technical partner for a tender: tell us what you need and we'll come back to you with an initial approach.",
+    email: 'Email',
+    phone: 'Phone / WhatsApp',
+    address: 'Address',
+    org: 'Organisation',
+    country: 'Country',
+    need: 'Type of need',
+    message: 'Your message',
+    besoins: [
+      'DHIS2 architecture or rollout',
+      'System interoperability',
+      'Surveillance and early warning',
+      'AI and data analysis',
+      'Application assessment',
+      'Training',
+      'Partnership for a tender',
+      'Other',
+    ],
+    consent: 'I agree that my data may be used to respond to my request, in accordance with the',
+    consentLink: 'legal notice',
+    submit: 'Send',
+  },
+}[lang];
+---
+
+<Base lang={lang} page="contact" title={copy.title} description={copy.description}>
+  <section class="container contact">
+    <div class="contact__info stack" style="--gap: 24px">
+      <p class="eyebrow">{copy.title}</p>
+      <h1 class="display" style="font-size: clamp(38px, 4.6vw, 60px)">{copy.h1}</h1>
+      <p class="lead">{copy.lead}</p>
+      <ul class="coords">
+        <li>
+          <Icon name="mail" size={22} />
+          <div><span class="small muted">{copy.email}</span><a href={`mailto:${site.email}`}>{site.email}</a></div>
+        </li>
+        <li>
+          <Icon name="phone" size={22} />
+          <div><span class="small muted">{copy.phone}</span><span>{site.phone}</span></div>
+        </li>
+        <li>
+          <Icon name="pin" size={22} />
+          <div><span class="small muted">{copy.address}</span><span>{site.address[lang]}</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <form class="form contact__form" action="/envoi.php" method="post">
+      <FormStatus lang={lang} />
+      <input type="hidden" name="type" value="contact" />
+      <input type="hidden" name="lang" value={lang} />
+      <div class="form__row">
+        <label class="field">{f.name}<input type="text" name="nom" required autocomplete="name" /></label>
+        <label class="field">{copy.org}<input type="text" name="organisation" autocomplete="organization" /></label>
+        <label class="field">{f.email}<input type="email" name="email" required autocomplete="email" /></label>
+        <label class="field">{copy.country}<input type="text" name="pays" /></label>
+      </div>
+      <label class="field"
+        >{copy.need}
+        <select name="besoin">{copy.besoins.map((b) => <option>{b}</option>)}</select>
+      </label>
+      <label class="field">{copy.message}<textarea name="message" rows="6" required></textarea></label>
+      <label class="consent"
+        ><input type="checkbox" name="consentement" required /><span
+          >{copy.consent} <a href={routes.legal[lang]}>{copy.consentLink}</a>.</span
+        ></label
+      >
+      <label class="hp" aria-hidden="true">{f.honeypot}<input type="text" name="site_web" tabindex="-1" autocomplete="off" /></label>
+      <button type="submit" class="btn btn--primary" style="align-self: flex-start">{copy.submit}</button>
+    </form>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px 72px;
+    padding-block: 72px 96px;
+  }
+  .contact__info {
+    flex: 1 1 360px;
+    min-width: 0;
+  }
+  .contact__form {
+    flex: 1.4 1 480px;
+    min-width: 0;
+  }
+  .coords {
+    list-style: none;
+    margin: 0;
+    padding: 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .coords li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .coords li :global(svg) {
+    flex: none;
+    margin-top: 2px;
+  }
+  .coords div {
+    display: flex;
+    flex-direction: column;
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .coords .small {
+    font-weight: 400;
+  }
+  @media (max-width: 640px) {
+    .contact {
+      padding-block: 40px 64px;
+    }
+  }
+</style>

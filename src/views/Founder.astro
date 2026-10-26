@@ -1,0 +1,276 @@
+---
+import { existsSync } from 'node:fs';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import type { Lang } from '../i18n';
+import portraitPied from '../assets/photos/portrait-pied.jpg';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+// Le bouton CV n'apparaît que si le PDF a été déposé dans public/.
+const hasCv = existsSync(`${process.cwd()}/public${site.cv}`);
+
+const copy = {
+  fr: {
+    title: 'Le fondateur',
+    description:
+      'Mamadou Diao Diallo, ingénieur en santé numérique et interopérabilité, fondateur de Sowkad : parcours, formation et certifications.',
+    alt: `${site.founder}, en pied`,
+    role: 'Ingénieur en santé numérique et interopérabilité · Fondateur de Sowkad',
+    p1: "Depuis plus de dix ans, il conçoit et déploie des systèmes d'information sanitaire pour des ministères de la Santé en Afrique. Il a dirigé le premier déploiement national de DHIS2 en Guinée, connecté des dossiers patients, des laboratoires et des plateformes de surveillance dans plusieurs pays, et applique aujourd'hui l'apprentissage automatique à l'alerte épidémique précoce.",
+    p2: 'Il a créé Sowkad pour mettre cette expérience au service des programmes de digitalisation des systèmes de santé, depuis la Guinée.',
+    cv: 'Télécharger le CV (PDF)',
+    pathEyebrow: 'Parcours',
+    pathH2: 'De Conakry à une douzaine de pays.',
+    parcours: [
+      ['2026', 'Consultant — FHI 360, projet STRIDES', 'Maroc · surveillance épidémiologique numérique'],
+      ['2026', 'Ingénieur interopérabilité senior — Madiro', 'Burundi, Madagascar · OpenFn, DHIS2'],
+      ['2026', 'Chercheur associé en IA pour la santé publique — ANSS', 'Guinée · prédiction des alertes épidémiques'],
+      ["2025 — aujourd'hui", 'Consultant surveillance One Health — Projet PReSeS-AOC', 'Guinée · financement Banque mondiale · EBS/CEBS dans DHIS2'],
+      ['2021 — 2025', 'Spécialiste des systèmes de santé numériques — JSI', 'À distance · paludisme, TB, planification familiale'],
+      ['2018 — 2021', 'Consultant en santé mondiale', 'Guinée, Burundi, Niger · JSI, GIZ, ICF, CRS, Digital Square'],
+      ['2016 — 2018', "Ingénieur systèmes d'information sanitaire — JSI", 'Guinée · déploiement national de DHIS2'],
+      ['2014 — 2016', 'Spécialiste IT et systèmes — Advalis', 'Conakry · collecte de données ODK, SIG, infrastructure'],
+    ],
+    education: 'Formation',
+    formation: [
+      ['Master en Intelligence artificielle pour la santé publique', 'Aix-Marseille Université · 2025–2026'],
+      ["Master 1 Ingénierie des systèmes d'information en santé", 'Aix-Marseille Université · 2017–2018'],
+      ['Ingénierie informatique et réseaux', 'Université Nongo Conakry · 2011–2015'],
+    ],
+    certificationsTitle: 'Certifications',
+    certifications: [
+      "DHIS2 Server Administration — Université d'Oslo",
+      'FHIR Fundamentals — HL7 International',
+      'FHIR Intermediate — HL7 International',
+      'Machine Learning on AWS — Amazon Web Services',
+      'Java et génie logiciel — Duke University',
+      'Test Driven Development — IBM',
+    ],
+    languagesTitle: 'Langues',
+    languages: 'Français (langue maternelle) · Anglais (courant)',
+    tools: 'Boîte à outils',
+  },
+  en: {
+    title: 'Founder',
+    description:
+      'Mamadou Diao Diallo, digital health and interoperability engineer and founder of Sowkad: experience, education and certifications.',
+    alt: `${site.founder}, full-length portrait`,
+    role: 'Digital health & interoperability engineer · Founder of Sowkad',
+    p1: "For more than ten years he has designed and deployed health information systems for ministries of health across Africa. He led Guinea's first national DHIS2 rollout, has connected patient records, laboratories and surveillance platforms in several countries, and now applies machine learning to epidemic early warning.",
+    p2: 'He founded Sowkad to put this experience to work for health system digitisation programmes, from Guinea.',
+    cv: 'Download CV (PDF)',
+    pathEyebrow: 'Experience',
+    pathH2: 'From Conakry to a dozen countries.',
+    parcours: [
+      ['2026', 'Consultant — FHI 360, STRIDES project', 'Morocco · digital epidemiological surveillance'],
+      ['2026', 'Senior Interoperability Engineer — Madiro', 'Burundi, Madagascar · OpenFn, DHIS2'],
+      ['2026', 'Associate Researcher in AI for Public Health — ANSS', 'Guinea · epidemic alert prediction'],
+      ['2025 — present', 'One Health Surveillance Consultant — PReSeS-AOC project', 'Guinea · World Bank funding · EBS/CEBS in DHIS2'],
+      ['2021 — 2025', 'Digital Health Systems Specialist — JSI', 'Remote · malaria, TB, family planning'],
+      ['2018 — 2021', 'Global Health Consultant', 'Guinea, Burundi, Niger · JSI, GIZ, ICF, CRS, Digital Square'],
+      ['2016 — 2018', 'Health Information Systems Engineer — JSI', 'Guinea · national DHIS2 rollout'],
+      ['2014 — 2016', 'IT & Systems Specialist — Advalis', 'Conakry · ODK data collection, GIS, infrastructure'],
+    ],
+    education: 'Education',
+    formation: [
+      ["Master's in Artificial Intelligence for Public Health", 'Aix-Marseille University · 2025–2026'],
+      ['Master 1 in Health Information Systems Engineering', 'Aix-Marseille University · 2017–2018'],
+      ['Computer Engineering and Networks', 'Université Nongo Conakry · 2011–2015'],
+    ],
+    certificationsTitle: 'Certifications',
+    certifications: [
+      'DHIS2 Server Administration — University of Oslo',
+      'FHIR Fundamentals — HL7 International',
+      'FHIR Intermediate — HL7 International',
+      'Machine Learning on AWS — Amazon Web Services',
+      'Java Programming and Software Engineering — Duke University',
+      'Test Driven Development — IBM',
+    ],
+    languagesTitle: 'Languages',
+    languages: 'French (native) · English (fluent)',
+    tools: 'Toolkit',
+  },
+}[lang];
+
+const outils = [
+  'DHIS2', 'OpenFn', 'HL7 FHIR', 'OpenHIE', 'OpenMRS', 'OpenLMIS', 'ODK · Kobo · CommCare', 'Python · SQL',
+  'LightGBM · SHAP', 'Power BI', 'QGIS', 'React · Flutter', 'Drupal', 'Docker · CI/CD', 'Linux',
+];
+---
+
+<Base lang={lang} page="founder" title={copy.title} description={copy.description}>
+  <section class="container hero-founder">
+    <div class="photo hero-founder__photo">
+      <Image
+        src={portraitPied}
+        alt={copy.alt}
+        widths={[480, 760, 1100]}
+        sizes="(max-width: 900px) 100vw, 480px"
+        loading="eager"
+        style="object-position: 50% 40%"
+      />
+    </div>
+    <div class="hero-founder__text stack" style="--gap: 24px">
+      <p class="eyebrow">{copy.title}</p>
+      <h1 class="display" style="font-size: clamp(40px, 5vw, 66px)">{site.founder}</h1>
+      <p class="founder-role">{copy.role}</p>
+      <p class="lead">{copy.p1}</p>
+      <p class="lead">{copy.p2}</p>
+      <div class="btn-row">
+        {
+          hasCv && (
+            <a href={site.cv} class="btn btn--primary" download>
+              <Icon name="download" size={18} color="currentColor" />
+              {copy.cv}
+            </a>
+          )
+        }
+        <a href={site.linkedin} class="btn btn--outline" rel="noopener" target="_blank">LinkedIn</a>
+        <a href={site.github} class="btn btn--outline" rel="noopener" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container split" style="--gap: 40px 64px">
+      <div class="stack" style="--gap: 12px; flex: 1 1 280px">
+        <p class="eyebrow">{copy.pathEyebrow}</p>
+        <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">{copy.pathH2}</h2>
+      </div>
+      <ol class="timeline">
+        {
+          copy.parcours.map(([when, role, where]) => (
+            <li>
+              <span class="timeline__when">{when}</span>
+              <div class="timeline__what">
+                <strong>{role}</strong>
+                <span>{where}</span>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section container grid-cards">
+    <div class="card">
+      <h2 class="h3">{copy.education}</h2>
+      <ul class="plain">
+        {
+          copy.formation.map(([title, where]) => (
+            <li class="stack" style="--gap: 0">
+              <strong>{title}</strong>
+              <span class="muted">{where}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="card">
+      <h2 class="h3">{copy.certificationsTitle}</h2>
+      <ul class="plain" style="gap: 10px">{copy.certifications.map((c) => <li>{c}</li>)}</ul>
+    </div>
+    <div class="card">
+      <h2 class="h3">{copy.languagesTitle}</h2>
+      <p style="font-size: 15px">{copy.languages}</p>
+    </div>
+  </section>
+
+  <section class="container stack" style="--gap: 24px; padding-bottom: 96px">
+    <h2 class="h2" style="font-size: clamp(26px, 3vw, 36px)">{copy.tools}</h2>
+    <ul class="chips">{outils.map((o) => <li class="chip">{o}</li>)}</ul>
+  </section>
+</Base>
+
+<style>
+  .hero-founder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: stretch;
+    padding-block: 56px 72px;
+  }
+  .hero-founder__photo {
+    flex: 1 1 380px;
+    min-width: 0;
+    min-height: 620px;
+    border-radius: var(--radius-lg);
+    position: relative;
+  }
+  .hero-founder__photo :global(img) {
+    position: absolute;
+    inset: 0;
+  }
+  .hero-founder__text {
+    flex: 999 1 480px;
+    min-width: 0;
+    justify-content: center;
+  }
+  .founder-role {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+  .timeline {
+    flex: 2.4 1 520px;
+    min-width: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .timeline li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 28px;
+    padding-block: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .timeline li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .timeline__when {
+    flex: 0 0 150px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-3);
+    padding-top: 3px;
+  }
+  .timeline__what {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .timeline__what strong {
+    font-size: 17px;
+  }
+  .timeline__what span {
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+  .plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .hero-founder {
+      padding-block: 32px 56px;
+      gap: 32px;
+    }
+    .hero-founder__photo {
+      min-height: 520px;
+    }
+  }
+</style>

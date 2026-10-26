@@ -11,7 +11,7 @@ const EXPEDITEUR   = 'site@sowkad.com';
 const TAILLE_MAX_CV = 5 * 1024 * 1024; // 5 Mo
 
 function retour(string $page, string $etat): void {
-    $ancre = $page === '/equipe/' ? '#candidature' : '';
+    $ancre = in_array($page, ['/equipe/', '/en/team/'], true) ? '#candidature' : '';
     header('Location: ' . $page . '?envoi=' . $etat . $ancre, true, 303);
     exit;
 }
@@ -23,11 +23,15 @@ function champ(string $nom, int $max = 200): string {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    retour('/', 'erreur');
+    retour(($_POST['lang'] ?? '') === 'en' ? '/en/' : '/', 'erreur');
 }
 
 $type = ($_POST['type'] ?? '') === 'candidature' ? 'candidature' : 'contact';
-$page = $type === 'candidature' ? '/equipe/' : '/contact/';
+$en   = ($_POST['lang'] ?? '') === 'en';
+$pages = $en
+    ? ['contact' => '/en/contact/', 'candidature' => '/en/team/']
+    : ['contact' => '/contact/', 'candidature' => '/equipe/'];
+$page = $pages[$type];
 
 // Pot de miel anti-robots : ce champ est invisible pour les humains.
 if (!empty($_POST['site_web'])) {
@@ -47,10 +51,10 @@ if ($type === 'contact') {
     $lignes[] = 'Organisation : ' . champ('organisation');
     $lignes[] = 'Pays : ' . champ('pays');
     $lignes[] = 'Besoin : ' . champ('besoin');
-    $sujet = 'Site Sowkad — nouvelle demande de ' . $nom;
+    $sujet = 'Site Sowkad — nouvelle demande de ' . $nom . ($en ? ' (EN)' : '');
 } else {
     $lignes[] = 'Profil : ' . champ('profil');
-    $sujet = 'Site Sowkad — candidature de ' . $nom;
+    $sujet = 'Site Sowkad — candidature de ' . $nom . ($en ? ' (EN)' : '');
 }
 $corps = implode("\n", $lignes) . "\n\nMessage :\n" . $message . "\n";
 
@@ -67,7 +71,7 @@ $avecCv = $type === 'candidature' && $cv && $cv['error'] === UPLOAD_ERR_OK;
 if ($avecCv) {
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     if ($cv['size'] > TAILLE_MAX_CV || $finfo->file($cv['tmp_name']) !== 'application/pdf') {
-        retour('/equipe/', 'erreur');
+        retour($page, 'erreur');
     }
     $frontiere = 'sowkad_' . bin2hex(random_bytes(8));
     $entetes[] = 'Content-Type: multipart/mixed; boundary="' . $frontiere . '"';

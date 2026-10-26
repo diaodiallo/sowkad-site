@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { routes, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const copy = {
+  fr: {
+    title: 'Page introuvable',
+    description: "Cette page n'existe pas ou a été déplacée.",
+    h1: 'Cette page est introuvable.',
+    lead: "Elle a peut-être été déplacée. Revenez à l'accueil ou écrivez-nous si vous cherchez une information précise.",
+    home: "Retour à l'accueil",
+    contact: 'Nous contacter',
+  },
+  en: {
+    title: 'Page not found',
+    description: 'This page does not exist or has moved.',
+    h1: 'This page could not be found.',
+    lead: 'It may have moved. Go back to the home page, or get in touch if you are looking for something specific.',
+    home: 'Back to home',
+    contact: 'Contact us',
+  },
+}[lang];
+---
+
+<Base lang={lang} page="notFound" title={copy.title} description={copy.description}>
+  <section class="container page-head stack" style="--gap: 22px; padding-bottom: 120px">
+    <p class="eyebrow">404</p>
+    <h1 class="display">{copy.h1}</h1>
+    <p class="lead">{copy.lead}</p>
+    <div class="btn-row">
+      <a href={routes.home[lang]} class="btn btn--primary">{copy.home}</a>
+      <a href={routes.contact[lang]} class="btn btn--outline">{copy.contact}</a>
+    </div>
+  </section>
+</Base>

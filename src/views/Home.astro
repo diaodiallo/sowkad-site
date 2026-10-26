@@ -1,0 +1,532 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { expertise, references } from '../data';
+import { site } from '../data/site';
+import { routes, ui, type Lang } from '../i18n';
+
+import portraitStudio from '../assets/photos/portrait-studio.jpg';
+import portraitBuste from '../assets/photos/portrait-buste.jpg';
+import formation from '../assets/photos/formation.jpg';
+import bokeEquipes from '../assets/photos/boke-equipes.jpg';
+import bokeCentre from '../assets/photos/boke-centre-sante.jpg';
+import kindia from '../assets/photos/kindia-atelier-sbe.jpg';
+import freetown from '../assets/photos/freetown-visite.jpg';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { domains } = expertise(lang);
+const refs = references(lang);
+const r = (k: keyof typeof routes) => routes[k][lang];
+
+const copy = {
+  fr: {
+    description:
+      "Sowkad accompagne les ministères de la Santé, les bailleurs et les ONG en Afrique : DHIS2, interopérabilité (OpenFn, FHIR), surveillance One Health et IA appliquée à la santé publique.",
+    eyebrow: `Conseil en santé numérique · ${ui.fr.city}`,
+    h1: "Des systèmes d'information sanitaire qui servent vraiment les décisions.",
+    lead: `Fondé par ${site.founder}, Sowkad accompagne les ministères de la Santé, les bailleurs et les ONG dans la conception, l'interopérabilité et le déploiement national de leurs systèmes : DHIS2, OpenFn, FHIR, surveillance One Health et IA appliquée à la santé publique.`,
+    ctaMain: 'Parlons de votre projet',
+    ctaRefs: 'Voir les références',
+    stats: ["ans d'expérience terrain", 'pays accompagnés', 'professionnels formés', 'structures sur DHIS2 en Guinée'],
+    photoAlt: `${site.founder}, fondateur de Sowkad`,
+    role: 'Fondateur · Ingénieur santé numérique & interopérabilité',
+    partners: 'Le fondateur a travaillé avec',
+    expEyebrow: 'Expertise',
+    expH2: 'Du cahier des charges au déploiement national.',
+    expLead:
+      "Nous couvrons tout le cycle : recueil des besoins, spécifications fonctionnelles, développement, tests d'acceptation, formation et transfert aux équipes nationales.",
+    expMore: "Détail de nos domaines d'expertise →",
+    fieldEyebrow: 'Sur le terrain',
+    fieldH2: 'Au plus près des équipes qui utilisent les données.',
+    terrain: [
+      ['Appui aux agents de santé sur la saisie des données à Boké', 'Appui aux équipes de santé · Boké, Guinée, 2025'],
+      ['Visite d’un centre de santé à Boké avec le personnel', 'Visite d’un centre de santé · Boké, Guinée, 2025'],
+      ['Atelier de surveillance à base d’événements avec l’ANSS à Kindia', 'Appui à l’ANSS Guinée · atelier SBE, Kindia, 2026'],
+      ['Équipe lors de la visite d’une formation sanitaire à Freetown', 'Visite d’une formation sanitaire · Freetown, Sierra Leone, 2024'],
+    ],
+    refEyebrow: 'Références',
+    refH2: 'Missions récentes',
+    countries: "Pays d'intervention",
+    refMore: 'Toutes les références →',
+    founderEyebrow: 'Le fondateur',
+    founderAlt: `${site.founder} animant une session de formation`,
+    founderText:
+      "Ingénieur en santé numérique et interopérabilité, il a dirigé le premier déploiement national de DHIS2 en Guinée et accompagne depuis plus de dix ans des programmes des ministères de la Santé en Afrique de l'Ouest, du Centre et de l'Est. Il est titulaire d'un Master en Intelligence artificielle pour la santé publique (Aix-Marseille Université).",
+    creds: ["Administration serveur DHIS2, Université d'Oslo", 'FHIR Fundamentals & Intermediate, HL7', 'Master IA pour la santé publique, AMU'],
+    founderMore: 'Lire le parcours complet →',
+    teamEyebrow: 'Équipe',
+    teamH2: 'Une équipe qui grandit avec ses missions.',
+    portraitAlt: `Portrait de ${site.founder}`,
+    founderRole: 'Fondateur · Directeur technique',
+    join: 'Rejoindre Sowkad',
+    joinText:
+      "Ingénieur·e DHIS2, data scientist ou spécialiste en santé publique ? Nous constituons un réseau d'experts en Afrique.",
+    joinCta: 'Envoyer une candidature →',
+    ctaH2: 'Un projet de digitalisation du système de santé ?',
+    ctaText: 'Évaluation, conception, interopérabilité ou déploiement : parlons-en.',
+    ctaBtn: 'Nous écrire',
+  },
+  en: {
+    description:
+      'Sowkad supports ministries of health, donors and NGOs across Africa: DHIS2, interoperability (OpenFn, FHIR), One Health surveillance and AI for public health.',
+    eyebrow: `Digital health consulting · ${ui.en.city}`,
+    h1: 'Health information systems that truly support decisions.',
+    lead: `Founded by ${site.founder}, Sowkad helps ministries of health, donors and NGOs design, connect and roll out their national systems: DHIS2, OpenFn, FHIR, One Health surveillance and AI for public health.`,
+    ctaMain: "Let's talk about your project",
+    ctaRefs: 'See our track record',
+    stats: ['years of field experience', 'countries supported', 'health professionals trained', 'facilities on DHIS2 in Guinea'],
+    photoAlt: `${site.founder}, founder of Sowkad`,
+    role: 'Founder · Digital health & interoperability engineer',
+    partners: 'The founder has worked with',
+    expEyebrow: 'Expertise',
+    expH2: 'From requirements to national rollout.',
+    expLead:
+      'We cover the full cycle: requirements gathering, functional specifications, development, acceptance testing, training and handover to national teams.',
+    expMore: 'Explore our areas of expertise →',
+    fieldEyebrow: 'In the field',
+    fieldH2: 'Working alongside the teams who use the data.',
+    terrain: [
+      ['Supporting health workers with data entry in Boké', 'Supporting health teams · Boké, Guinea, 2025'],
+      ['Visiting a health centre in Boké with its staff', 'Health centre visit · Boké, Guinea, 2025'],
+      ['Event-based surveillance workshop with ANSS in Kindia', 'Supporting ANSS Guinea · EBS workshop, Kindia, 2026'],
+      ['Team visiting a health facility in Freetown', 'Health facility visit · Freetown, Sierra Leone, 2024'],
+    ],
+    refEyebrow: 'Track record',
+    refH2: 'Recent assignments',
+    countries: 'Countries of operation',
+    refMore: 'Full track record →',
+    founderEyebrow: 'The founder',
+    founderAlt: `${site.founder} leading a training session`,
+    founderText:
+      "A digital health and interoperability engineer, he led Guinea's first national DHIS2 rollout and has supported ministry of health programmes across West, Central and East Africa for more than ten years. He holds a Master's degree in Artificial Intelligence for Public Health (Aix-Marseille University).",
+    creds: ['DHIS2 Server Administration, University of Oslo', 'FHIR Fundamentals & Intermediate, HL7', "Master's in AI for Public Health, AMU"],
+    founderMore: 'Read the full profile →',
+    teamEyebrow: 'Team',
+    teamH2: 'A team that grows with its assignments.',
+    portraitAlt: `Portrait of ${site.founder}`,
+    founderRole: 'Founder · Technical Director',
+    join: 'Join Sowkad',
+    joinText: 'DHIS2 engineer, data scientist or public health specialist? We are building a network of experts across Africa.',
+    joinCta: 'Send an application →',
+    ctaH2: 'Planning to digitise a health system?',
+    ctaText: "Assessment, design, interoperability or rollout: let's talk.",
+    ctaBtn: 'Get in touch',
+  },
+}[lang];
+
+const terrainPhotos = [
+  { src: bokeEquipes, pos: '50% 50%' },
+  { src: bokeCentre, pos: '50% 50%' },
+  { src: kindia, pos: '50% 35%' },
+  { src: freetown, pos: '50% 60%' },
+];
+const statValues = ['10+', '13', '300+', '500+'];
+---
+
+<Base lang={lang} page="home" title="Sowkad" description={copy.description}>
+  <!-- HERO -->
+  <section class="container hero">
+    <div class="hero__text stack" style="--gap: 28px">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h1 class="display">{copy.h1}</h1>
+      <p class="lead">{copy.lead}</p>
+      <div class="btn-row">
+        <a href={r('contact')} class="btn btn--primary">{copy.ctaMain}</a>
+        <a href={r('references')} class="btn btn--outline">{copy.ctaRefs}</a>
+      </div>
+      <dl class="hero__stats">
+        {
+          statValues.map((v, i) => (
+            <div class="stat">
+              <dt class="stat__label">{copy.stats[i]}</dt>
+              <dd class="stat__value">{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+    <figure class="hero__photo">
+      <Image
+        src={portraitStudio}
+        alt={copy.photoAlt}
+        widths={[480, 760, 1100]}
+        sizes="(max-width: 900px) 100vw, 480px"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption>
+        <strong>{site.founder}</strong>
+        <span>{copy.role}</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- PARTENAIRES -->
+  <section class="partners">
+    <div class="container partners__inner">
+      <p class="mono partners__label">{copy.partners}</p>
+      <ul class="partners__list">
+        {
+          refs.partners.map((p) => (
+            <li>{p.url ? <a href={p.url} rel="noopener" target="_blank">{p.name}</a> : p.name}</li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section class="section container stack" style="--gap: 48px">
+    <div class="section-head">
+      <div class="stack" style="--gap: 14px; max-width: 680px">
+        <p class="eyebrow">{copy.expEyebrow}</p>
+        <h2 class="h2">{copy.expH2}</h2>
+      </div>
+      <p class="lead" style="max-width: 440px">{copy.expLead}</p>
+    </div>
+    <div class="grid-cards">
+      {
+        domains.map((d) => (
+          <article class="card">
+            <Icon name={d.icon} />
+            <h3 class="h3">{d.title}</h3>
+            <p class="muted-2">{d.summary}</p>
+            <p class="mono">{d.tags}</p>
+          </article>
+        ))
+      }
+    </div>
+    <a href={r('expertise')} class="link-arrow">{copy.expMore}</a>
+  </section>
+
+  <!-- TERRAIN -->
+  <section class="container stack terrain" style="--gap: 28px">
+    <div class="stack" style="--gap: 12px">
+      <p class="eyebrow">{copy.fieldEyebrow}</p>
+      <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">{copy.fieldH2}</h2>
+    </div>
+    <div class="grid-cards" style="--min: 260px; --gap: 16px">
+      {
+        terrainPhotos.map((t, i) => (
+          <figure class="terrain__item">
+            <div class="photo terrain__photo">
+              <Image
+                src={t.src}
+                alt={copy.terrain[i][0]}
+                widths={[400, 640, 900]}
+                sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 300px"
+                style={`object-position: ${t.pos}`}
+              />
+            </div>
+            <figcaption class="small muted">{copy.terrain[i][1]}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="section section--dark">
+    <div class="container stack" style="--gap: 40px">
+      <div class="stack" style="--gap: 14px">
+        <p class="eyebrow">{copy.refEyebrow}</p>
+        <h2 class="h2" style="color: #fff">{copy.refH2}</h2>
+      </div>
+      <ul class="missions">
+        {
+          refs.home.map((m) => (
+            <li class="mission">
+              <span class="mission__period">{m.period}</span>
+              <div class="mission__who">
+                <strong>{m.homeTitle ?? m.title}</strong>
+                <span>{m.where}</span>
+              </div>
+              <p class="mission__text">{m.homeText}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="stack" style="--gap: 14px">
+        <p class="eyebrow" style="font-size: 12px">{copy.countries}</p>
+        <ul class="chips">{refs.countries.map((c) => <li class="chip">{c}</li>)}</ul>
+      </div>
+      <a href={r('references')} class="link-arrow" style="color: var(--accent-light)">{copy.refMore}</a>
+    </div>
+  </section>
+
+  <!-- FONDATEUR -->
+  <section class="section container split founder" style="--gap: 56px">
+    <div class="photo founder__photo">
+      <Image src={formation} alt={copy.founderAlt} widths={[480, 760, 1100]} sizes="(max-width: 900px) 100vw, 520px" style="object-position: 30% 40%" />
+    </div>
+    <div class="founder__text stack" style="--gap: 22px">
+      <p class="eyebrow">{copy.founderEyebrow}</p>
+      <h2 class="h2" style="font-size: clamp(30px, 3.2vw, 44px)">{site.founder}</h2>
+      <p class="lead">{copy.founderText}</p>
+      <ul class="founder__creds">{copy.creds.map((c) => <li>{c}</li>)}</ul>
+      <a href={r('founder')} class="link-arrow">{copy.founderMore}</a>
+    </div>
+  </section>
+
+  <!-- EQUIPE -->
+  <section class="section section--white">
+    <div class="container stack" style="--gap: 36px">
+      <div class="stack" style="--gap: 14px; max-width: 680px">
+        <p class="eyebrow">{copy.teamEyebrow}</p>
+        <h2 class="h2" style="font-size: clamp(30px, 3.2vw, 44px)">{copy.teamH2}</h2>
+      </div>
+      <div class="grid-cards" style="--min: 240px">
+        <div class="card" style="padding: 20px">
+          <div class="photo" style="height: 220px; border-radius: var(--radius-sm)">
+            <Image src={portraitBuste} alt={copy.portraitAlt} widths={[320, 640]} sizes="(max-width: 640px) 100vw, 480px" style="object-position: 50% 5%" />
+          </div>
+          <div>
+            <strong class="team-name">{site.founder}</strong>
+            <p class="small muted">{copy.founderRole}</p>
+          </div>
+        </div>
+        <div class="card card--dashed" style="justify-content: center; min-height: 280px">
+          <strong class="team-name" style="font-size: 20px">{copy.join}</strong>
+          <p class="small" style="color: var(--ink-2)">{copy.joinText}</p>
+          <a href={`${r('team')}#candidature`} class="link-arrow small">{copy.joinCta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section container">
+    <div class="cta">
+      <div class="stack" style="--gap: 14px; flex: 999 1 420px">
+        <h2 style="font-size: clamp(28px, 3.4vw, 46px); line-height: 1.08">{copy.ctaH2}</h2>
+        <p style="font-size: 18px; color: #e3f2ee">{copy.ctaText}</p>
+      </div>
+      <div class="stack" style="--gap: 12px; flex: 1 1 260px">
+        <a href={r('contact')} class="btn btn--light">{copy.ctaBtn}</a>
+        <a href={`mailto:${site.email}`} class="small" style="color: #e3f2ee; text-align: center">{site.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 48px;
+    padding-block: 56px 72px;
+  }
+  .hero__text {
+    flex: 999 1 520px;
+    min-width: 0;
+    justify-content: center;
+  }
+  .hero__stats {
+    margin: 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 24px;
+  }
+  .hero__stats .stat {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+  .hero__stats dd {
+    margin: 0;
+  }
+  .hero__photo {
+    flex: 1 1 380px;
+    min-width: 0;
+    margin: 0;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: #dce7e2;
+    min-height: 640px;
+  }
+  .hero__photo :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 15%;
+  }
+  .hero__photo figcaption {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero__photo figcaption strong {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+  .hero__photo figcaption span {
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+
+  .partners {
+    background: var(--surface);
+    border-block: 1px solid var(--line);
+  }
+  .partners__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 40px;
+    padding-block: 32px;
+  }
+  .partners__label {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .partners__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 36px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    color: #3c4c47;
+  }
+  .partners__list a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .partners__list a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .muted-2 {
+    color: var(--ink-2);
+  }
+
+  .terrain {
+    padding-bottom: 96px;
+  }
+  .terrain__item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .terrain__photo {
+    height: 300px;
+    border-radius: 18px;
+  }
+
+  .missions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mission {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    padding-block: 26px;
+    border-top: 1px solid var(--dark-line);
+  }
+  .mission:last-child {
+    border-bottom: 1px solid var(--dark-line);
+  }
+  .mission__period {
+    flex: 0 0 140px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent-light);
+  }
+  .mission__who {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .mission__who strong {
+    font-family: var(--font-display);
+    font-size: 19px;
+    color: #fff;
+  }
+  .mission__who span {
+    font-size: 15px;
+    color: var(--dark-muted);
+  }
+  .mission__text {
+    flex: 2 1 380px;
+    color: var(--dark-text);
+  }
+
+  .founder {
+    align-items: center;
+  }
+  .founder__photo {
+    flex: 1 1 360px;
+    min-width: 0;
+    height: 460px;
+    border-radius: 24px;
+  }
+  .founder__text {
+    flex: 999 1 460px;
+    min-width: 0;
+  }
+  .founder__creds {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px 24px;
+    font-size: 15px;
+  }
+  .founder__creds li::before {
+    content: '—';
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 10px;
+  }
+
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding-block: 32px 56px;
+      gap: 32px;
+    }
+    .hero__photo {
+      min-height: 520px;
+    }
+    .founder__photo {
+      height: 320px;
+    }
+  }
+</style>

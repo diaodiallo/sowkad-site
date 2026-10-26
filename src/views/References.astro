@@ -1,0 +1,191 @@
+---
+import Base from '../layouts/Base.astro';
+import { references } from '../data';
+import { routes, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const refs = references(lang);
+const chtf = refs.byId('chtf');
+
+const copy = {
+  fr: {
+    title: 'Références',
+    description:
+      "Missions du fondateur de Sowkad : FHI 360 au Maroc, projet PReSeS-AOC en Guinée, ANSS, Madiro au Burundi et à Madagascar, JSI, GIZ, Digital Square et d'autres.",
+    h1: 'Dix ans de missions auprès des systèmes de santé africains.',
+    lead: 'Les missions ci-dessous ont été conduites par le fondateur de Sowkad, comme consultant ou au sein des organisations citées.',
+    ongoing: 'Mission en cours',
+    earlyMeta: 'Guinée · Burundi · Niger · 2018 — 2021',
+    earlyTitle: 'Missions de conseil en santé mondiale',
+    ctaH2: 'Vous préparez un projet similaire ?',
+    ctaBtn: 'Discutons-en',
+  },
+  en: {
+    title: 'Track record',
+    description:
+      "The Sowkad founder's assignments: FHI 360 in Morocco, the PReSeS-AOC project in Guinea, ANSS, Madiro in Burundi and Madagascar, JSI, GIZ, Digital Square and more.",
+    h1: "Ten years of work with Africa's health systems.",
+    lead: "The assignments below were carried out by Sowkad's founder, as a consultant or as staff of the organisations named.",
+    ongoing: 'Ongoing',
+    earlyMeta: 'Guinea · Burundi · Niger · 2018 — 2021',
+    earlyTitle: 'Global health consulting assignments',
+    ctaH2: 'Planning a similar project?',
+    ctaBtn: "Let's talk",
+  },
+}[lang];
+---
+
+<Base lang={lang} page="references" title={copy.title} description={copy.description}>
+  <section class="container page-head stack" style="--gap: 22px">
+    <p class="eyebrow">{copy.title}</p>
+    <h1 class="display">{copy.h1}</h1>
+    <p class="lead">{copy.lead}</p>
+  </section>
+
+  <section class="container refs">
+    {
+      refs.list.map((m) => (
+        <article class="card ref" id={m.id}>
+          <div class="ref__head">
+            <div class="stack" style="--gap: 4px">
+              <span class="ref__meta">{m.meta}</span>
+              <h2 class="ref__title">{m.title}</h2>
+            </div>
+            {m.ongoing && <span class="badge">{copy.ongoing}</span>}
+          </div>
+          <div class="ref__body">
+            <p class="ref__text">{m.text}</p>
+            {m.bullets && (
+              <ul class="list ref__side">
+                {m.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+            {m.stats && (
+              <dl class="ref__side ref__stats">
+                {m.stats.map((s) => (
+                  <div class="stat">
+                    <dd class="stat__value" style="color: var(--accent)">
+                      {s.value}
+                    </dd>
+                    <dt class="stat__label">{s.label}</dt>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+          {m.tags && <p class="mono">{m.tags}</p>}
+        </article>
+      ))
+    }
+
+    <article class="card ref">
+      <div class="stack" style="--gap: 4px">
+        <span class="ref__meta">{copy.earlyMeta}</span>
+        <h2 class="ref__title">{copy.earlyTitle}</h2>
+      </div>
+      <ul class="list early">
+        {
+          refs.earlyMissions.map((e) => (
+            <li>
+              <strong>{e.org}</strong> — {e.text}
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+
+    <article class="card ref" id={chtf.id}>
+      <div class="ref__head">
+        <div class="stack" style="--gap: 4px">
+          <span class="ref__meta">{chtf.meta}</span>
+          <h2 class="ref__title">{chtf.title}</h2>
+        </div>
+        <span class="badge">{copy.ongoing}</span>
+      </div>
+      <p class="ref__text" style="max-width: 860px">{chtf.text}</p>
+      <p class="mono">{chtf.tags}</p>
+    </article>
+  </section>
+
+  <section class="container" style="padding-block: 16px 96px">
+    <div class="cta cta--dark">
+      <h2>{copy.ctaH2}</h2>
+      <a href={routes.contact[lang]} class="btn btn--light">{copy.ctaBtn}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .refs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 64px;
+  }
+  .ref {
+    padding: clamp(22px, 3vw, 36px);
+    gap: 20px;
+    scroll-margin-top: 24px;
+  }
+  .ref__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px 24px;
+  }
+  .ref__meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .ref__title {
+    font-size: clamp(22px, 2.2vw, 26px);
+    line-height: 1.2;
+  }
+  .ref__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 48px;
+  }
+  .ref__body .ref__text {
+    flex: 1.4 1 420px;
+    min-width: 0;
+  }
+  .ref__text {
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .ref__side {
+    flex: 1 1 300px;
+    min-width: 0;
+    font-size: 15px;
+  }
+  .ref__stats {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-content: start;
+  }
+  .ref__stats .stat__value {
+    margin: 0;
+    font-size: 30px;
+  }
+  .ref__stats .stat__label {
+    font-size: 13px;
+  }
+  .early {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px 40px;
+    font-size: 15px;
+  }
+</style>

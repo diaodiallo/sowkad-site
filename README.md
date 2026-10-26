@@ -15,19 +15,22 @@ npm run build    # génère le site final dans dist/
 
 ## Où modifier quoi
 
+Le site existe en français (`/`) et en anglais (`/en/`). Chaque page est un modèle unique dans `src/views/`, qui contient ses textes dans les deux langues.
+
 | Contenu | Fichier |
 | --- | --- |
 | Coordonnées, RCCM, NIF, liens LinkedIn | `src/data/site.ts` |
-| Domaines d'expertise et méthode | `src/data/expertise.ts` |
-| Missions, pays, organisations partenaires | `src/data/references.ts` |
-| Pages | `src/pages/*.astro` |
+| Domaines d'expertise et méthode | `src/data/expertise.ts` (FR) et `expertise.en.ts` (EN) |
+| Missions, pays, organisations partenaires | `src/data/references.ts` (FR) et `references.en.ts` (EN) |
+| Textes des pages | `src/views/*.astro` (bloc `copy`, une partie `fr` et une partie `en`) |
+| Menu, pied de page, adresses des pages | `src/i18n/index.ts` |
 | Couleurs, polices, styles communs | `src/styles/global.css` |
 | Photos | `src/assets/photos/` (optimisées automatiquement en WebP au build) |
 | Formulaires (envoi des e-mails) | `public/envoi.php` |
 
 Les éléments entre crochets `[...]` restent à compléter (adresse, téléphone, forme juridique, RCCM, NIF, durée de conservation des données).
 
-**CV téléchargeable** : déposer le PDF dans `public/cv-mamadou-diao-diallo.pdf`. Utiliser une version sans les coordonnées des personnes de référence.
+**CV téléchargeable** : déposer le PDF dans `public/cv-mamadou-diao-diallo.pdf` ; le bouton apparaît automatiquement sur la page du fondateur. Utiliser une version sans les coordonnées des personnes de référence.
 
 ## Mise en ligne sur LWS
 

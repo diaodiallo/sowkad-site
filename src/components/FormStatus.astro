@@ -1,13 +1,14 @@
 ---
 // Affiche le résultat d'un envoi de formulaire (paramètre ?envoi=ok|erreur ajouté par envoi.php).
+import { ui, type Lang } from '../i18n';
+interface Props {
+  lang: Lang;
+}
+const t = ui[Astro.props.lang].form;
 ---
 
-<p class="form-status form-status--ok" data-status="ok" role="status" hidden>
-  Merci, votre message a bien été envoyé. Nous vous répondrons rapidement.
-</p>
-<p class="form-status form-status--error" data-status="erreur" role="alert" hidden>
-  L'envoi n'a pas abouti. Vérifiez les champs obligatoires ou écrivez-nous directement par e-mail.
-</p>
+<p class="form-status form-status--ok" data-status="ok" role="status" hidden>{t.ok}</p>
+<p class="form-status form-status--error" data-status="erreur" role="alert" hidden>{t.error}</p>
 
 <script>
   const etat = new URLSearchParams(window.location.search).get('envoi');
