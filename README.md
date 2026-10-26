@@ -30,7 +30,7 @@ Le site existe en français (`/`) et en anglais (`/en/`). Chaque page est un mod
 
 Les éléments entre crochets `[...]` restent à compléter : adresse de LWS, durée de conservation des données, crédit photo. Le RCCM et le NIF seront ajoutés après l’immatriculation.
 
-**CV téléchargeable** : déposer le PDF dans `public/cv-mamadou-diao-diallo.pdf` ; le bouton apparaît automatiquement sur la page du fondateur. Utiliser une version sans les coordonnées des personnes de référence.
+**CV téléchargeable** : le PDF est dans `public/cv-mamadou-diao-diallo.pdf` ; pour le mettre à jour, remplacer ce fichier en gardant le même nom (le bouton n’apparaît que si le fichier existe). Utiliser une version sans les coordonnées des personnes de référence.
 
 ## Mise en ligne sur LWS
 
