@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /envoi.php
+
+Sitemap: https://www.sowkad.com/sitemap-index.xml

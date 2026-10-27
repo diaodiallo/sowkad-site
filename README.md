@@ -28,7 +28,7 @@ Le site existe en français (`/`) et en anglais (`/en/`). Chaque page est un mod
 | Photos | `src/assets/photos/` (optimisées automatiquement en WebP au build) |
 | Formulaires (envoi des e-mails) | `public/envoi.php` |
 
-Les éléments entre crochets `[...]` restent à compléter : adresse de LWS, durée de conservation des données, crédit photo. Le RCCM et le NIF seront ajoutés après l’immatriculation.
+Le RCCM et le NIF seront ajoutés après l’immatriculation (`src/data/site.ts` et `src/views/Legal.astro`).
 
 **CV téléchargeable** : le PDF est dans `public/cv-mamadou-diao-diallo.pdf` ; pour le mettre à jour, remplacer ce fichier en gardant le même nom (le bouton n’apparaît que si le fichier existe). Utiliser une version sans les coordonnées des personnes de référence.
 
