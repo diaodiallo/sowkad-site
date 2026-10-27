@@ -5,13 +5,14 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Forcer HTTPS (activer le certificat SSL gratuit dans l'espace client LWS avant de décommenter)
-  # RewriteCond %{HTTPS} off
-  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # 1) sowkad.com -> https://www.sowkad.com
+  RewriteCond %{HTTP_HOST} ^sowkad\.com$ [NC]
+  RewriteRule ^ https://www.sowkad.com%{REQUEST_URI} [L,R=301]
 
-  # Forcer www.sowkad.com (à décommenter une fois le domaine actif)
-  # RewriteCond %{HTTP_HOST} ^sowkad\.com$ [NC]
-  # RewriteRule ^ https://www.sowkad.com%{REQUEST_URI} [L,R=301]
+  # 2) http -> https (adresse principale : www.sowkad.com)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://www.sowkad.com%{REQUEST_URI} [L,R=301]
 </IfModule>
 
 <IfModule mod_headers.c>

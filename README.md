@@ -46,6 +46,6 @@ Tant que les secrets ne sont pas renseignés, le workflow construit le site sans
 ### Après la première mise en ligne
 
 1. Créer dans LWS les adresses `contact@sowkad.com` (réception) et `site@sowkad.com` (expéditeur des formulaires), ou adapter `public/envoi.php`.
-2. Activer le certificat SSL gratuit, puis décommenter la redirection HTTPS dans `public/.htaccess`.
+2. Redirections actives dans `public/.htaccess` : toutes les variantes (http, sans www) mènent à https://www.sowkad.com.
 3. Vérifier `site` dans `astro.config.mjs` (URL définitive du domaine).
 4. Tester les deux formulaires (contact et candidature).

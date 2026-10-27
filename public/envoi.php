@@ -75,7 +75,10 @@ if ($avecCv) {
     }
     $frontiere = 'sowkad_' . bin2hex(random_bytes(8));
     $entetes[] = 'Content-Type: multipart/mixed; boundary="' . $frontiere . '"';
-    $nomFichier = 'CV-' . preg_replace('/[^A-Za-z0-9_-]+/', '-', $nom) . '.pdf';
+    // Nom d'origine du fichier envoyé par le candidat, nettoyé (lettres, chiffres, tirets).
+    $origine = pathinfo((string) $cv['name'], PATHINFO_FILENAME);
+    $origine = trim(preg_replace('/[^A-Za-z0-9_-]+/', '-', $origine), '-') ?: 'CV';
+    $nomFichier = 'Candidature-' . mb_substr($origine, 0, 60) . '.pdf';
 
     $contenu  = "--$frontiere\r\n";
     $contenu .= "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n";
