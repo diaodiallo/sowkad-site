@@ -168,9 +168,10 @@ export const homeOrder = ['strides', 'preses', 'chtf', 'madiro-madagascar', 'ans
 export const referencesOrder = [
   'strides',
   'preses',
-  'anss',
+  'chtf',
   'madiro-madagascar',
   'madiro-burundi',
+  'anss',
   'jsi-multi',
   'jsi-guinee',
 ];
