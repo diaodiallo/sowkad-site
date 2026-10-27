@@ -36,6 +36,8 @@ const alternates = page === 'notFound' ? [] : (['fr', 'en'] as Lang[]).map((l) =
     {alternates.length > 0 && <link rel="alternate" hreflang="x-default" href={alternates[0].href} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#0f2a24" />
+    <!-- Vérification Google Search Console -->
+    <meta name="google-site-verification" content="gkZgxeKdazjmU8w04Ty8EcmLES8Sb_tftp-lmEX-epU" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
