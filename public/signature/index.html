@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Signature e-mail — Sowkad</title>
+<style>
+  body { margin: 0; background: #f4f7f6; font-family: Arial, Helvetica, sans-serif; color: #1c2b27; }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 16px; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  p.aide { margin: 0 0 24px; color: #4a5c57; font-size: 14px; line-height: 1.6; }
+  .carte { background: #fff; border: 1px solid #dde6e3; border-radius: 10px; padding: 28px 24px; overflow-x: auto; }
+  button { margin-top: 18px; background: #0E7C66; color: #fff; border: 0; border-radius: 8px; padding: 12px 20px; font-size: 15px; font-weight: bold; cursor: pointer; }
+  button:hover { background: #0b6654; }
+  #etat { margin-left: 12px; font-size: 14px; color: #0E7C66; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Signature e-mail</h1>
+  <p class="aide">Clique sur « Copier la signature », puis dans Gmail : Paramètres → Voir tous les paramètres → Signature, et colle (Ctrl+V / Cmd+V). Enregistre en bas de la page Gmail.</p>
+
+  <div class="carte">
+    <div id="signature">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;">
+        <tr>
+          <td valign="top" style="padding:2px 14px 0 0;">
+            <a href="https://www.sowkad.com" style="text-decoration:none;"><img src="https://www.sowkad.com/signature/sowkad-logo.png" width="56" height="56" alt="Sowkad" style="display:block;border:0;width:56px;height:56px;border-radius:12px;"></a>
+          </td>
+          <td valign="top" style="padding:0 0 0 14px;border-left:2px solid #0E7C66;">
+            <div style="font-size:15px;font-weight:bold;color:#0F2A24;line-height:20px;">Mamadou Diao DIALLO</div>
+            <div style="font-size:13px;color:#0E7C66;font-weight:bold;line-height:19px;">Digital Health &amp; Interoperability Engineer · Founder, Sowkad</div>
+            <div style="font-size:12px;color:#4a5c57;line-height:18px;">FHIR Certified · DHIS2 · OpenMRS · OpenHIM · OpenFn · ODK</div>
+            <div style="font-size:12px;color:#1c2b27;line-height:18px;padding-top:4px;">
+              <a href="tel:+224662256106" style="color:#1c2b27;text-decoration:none;">+224 662 256 106</a> · <a href="tel:+224623909413" style="color:#1c2b27;text-decoration:none;">+224 623 909 413</a> · <a href="tel:+221777585274" style="color:#1c2b27;text-decoration:none;">+221 77 758 52 74</a>
+            </div>
+            <div style="font-size:12px;line-height:18px;">
+              <a href="https://www.sowkad.com" style="color:#0E7C66;font-weight:bold;text-decoration:none;">www.sowkad.com</a> <span style="color:#9aaba6;">·</span> <a href="https://www.linkedin.com/in/mamadou-diao-diallo-7705b8a7" style="color:#0E7C66;text-decoration:none;">LinkedIn</a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <button type="button" id="copier">Copier la signature</button><span id="etat" role="status"></span>
+</main>
+<script>
+  const bouton = document.getElementById('copier');
+  const etat = document.getElementById('etat');
+  const sig = document.getElementById('signature');
+  bouton.addEventListener('click', async () => {
+    try {
+      const html = sig.innerHTML;
+      const texte = sig.innerText;
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([texte], { type: 'text/plain' })
+      })]);
+    } catch (e) {
+      const r = document.createRange();
+      r.selectNodeContents(sig);
+      const s = window.getSelection();
+      s.removeAllRanges(); s.addRange(r);
+      document.execCommand('copy');
+      s.removeAllRanges();
+    }
+    etat.textContent = 'Copiée. Colle-la dans Gmail.';
+  });
+</script>
+</body>
+</html>
