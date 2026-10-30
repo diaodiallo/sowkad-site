@@ -1,0 +1,254 @@
+---
+/**
+ * Section « Comment nous connectons les systèmes » — workflow d'interopérabilité
+ * (exemple : résultats de laboratoire → FHIR → DHIS2, construit avec OpenFn).
+ * Le schéma est un SVG dessiné à la main, lisible sur mobile, sans logos de marques.
+ */
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const copy = {
+  fr: {
+    eyebrow: 'Interopérabilité',
+    h2: 'Des systèmes qui se parlent, des données qui arrivent à temps.',
+    lead: "Nous automatisons la circulation des données entre les systèmes existants (laboratoires, dossiers patients, DHIS2) plutôt que d'en ajouter un de plus.",
+    points: [
+      ['Standards ouverts', 'Les données passent par FHIR : chaque système reste remplaçable.'],
+      ['Contrôle qualité intégré', 'Les enregistrements incomplets sont écartés et signalés avant l’import.'],
+      ['Alertes en cas d’échec', 'Le gestionnaire de données est prévenu, rien ne se perd en silence.'],
+    ],
+    caption: 'Exemple : résultats de laboratoire vers DHIS2 Tracker · workflow construit avec OpenFn',
+    success: 'succès',
+    failure: 'échec',
+    rejects: 'rejets',
+    title: 'Workflow : résultats de laboratoire validés, convertis en FHIR puis chargés dans DHIS2, avec alerte en cas d’échec',
+  },
+  en: {
+    eyebrow: 'Interoperability',
+    h2: 'Systems that talk to each other, data that arrives on time.',
+    lead: 'We automate the flow of data between the systems already in place (laboratories, patient records, DHIS2) instead of adding yet another one.',
+    points: [
+      ['Open standards', 'Data moves through FHIR, so every system stays replaceable.'],
+      ['Built-in quality checks', 'Incomplete records are set aside and flagged before import.'],
+      ['Failure alerts', 'The data manager is notified, nothing gets lost silently.'],
+    ],
+    caption: 'Example: laboratory results to DHIS2 Tracker · workflow built with OpenFn',
+    success: 'success',
+    failure: 'failure',
+    rejects: 'rejects',
+    title: 'Workflow: laboratory results validated, converted to FHIR and loaded into DHIS2, with an alert on failure',
+  },
+}[lang];
+
+// Géométrie du schéma (viewBox 460 × 610)
+const W = 224;
+const H = 58;
+const colX = 36; // colonne principale
+const nodes = [
+  { id: 'fetch', x: colX, y: 92, t: 'Fetch lab results', a: 'http', b: 'HTTP' },
+  { id: 'clean', x: colX, y: 190, t: 'Validate & clean', a: 'common', b: 'Fn' },
+  { id: 'fhir', x: colX, y: 288, t: 'Map to FHIR', a: 'fhir-4', b: 'FHIR' },
+  { id: 'dhis', x: colX, y: 386, t: 'Load to DHIS2 Tracker', a: 'dhis2', b: 'DHIS2' },
+  { id: 'dash', x: 4, y: 520, t: 'Update dashboard', a: 'dhis2', b: 'DHIS2', ok: true },
+  { id: 'alert', x: 232, y: 520, t: 'Notify data manager', a: 'http', b: 'HTTP', ko: true },
+];
+const cx = colX + W / 2; // 148
+---
+
+<section class="section section--white wf">
+  <div class="container wf__grid">
+    <div class="stack wf__text" style="--gap: 22px">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2 class="h2">{copy.h2}</h2>
+      <p class="lead">{copy.lead}</p>
+      <ul class="wf__points">
+        {
+          copy.points.map(([h, p], i) => (
+            <li>
+              <span class="wf__num mono">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <strong>{h}</strong>
+                <span>{p}</span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <figure class="wf__figure">
+      <svg viewBox="0 0 460 610" role="img" aria-label={copy.title} class="wf__svg">
+        <defs>
+          <marker id="wf-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#9fb3ad"></path>
+          </marker>
+        </defs>
+
+        <!-- Liaisons -->
+        <g fill="none" stroke="#9fb3ad" stroke-width="1.6">
+          <path d={`M${cx} 58 V${92 - 4}`} stroke-dasharray="4 5" marker-end="url(#wf-arrow)"></path>
+          <path d={`M${cx} ${92 + H} V${190 - 4}`} marker-end="url(#wf-arrow)" class="wf__flow"></path>
+          <path d={`M${cx} ${190 + H} V${288 - 4}`} marker-end="url(#wf-arrow)" class="wf__flow"></path>
+          <path d={`M${cx} ${288 + H} V${386 - 4}`} marker-end="url(#wf-arrow)" class="wf__flow"></path>
+          <!-- succès -> tableau de bord -->
+          <path d={`M${cx} ${386 + H} C${cx} 490, 120 480, 120 ${520 - 4}`} marker-end="url(#wf-arrow)" class="wf__flow"></path>
+          <!-- échec -> alerte -->
+          <path d={`M${cx} ${386 + H} C${cx} 500, 344 470, 344 ${520 - 4}`} stroke="#d9a3a3" marker-end="url(#wf-arrow)"></path>
+          <!-- rejets à la validation -> alerte -->
+          <path d={`M${colX + W} ${190 + H / 2} C 372 ${190 + H / 2}, 372 300, 372 ${520 - 4}`} stroke-dasharray="5 5" stroke="#d9a3a3" marker-end="url(#wf-arrow)"></path>
+        </g>
+
+        <!-- Marqueurs sur les liaisons -->
+        {[171, 269, 367].map((y) => (
+          <g transform={`translate(${cx} ${y})`}>
+            <circle r="11" fill="#fff" stroke="#c3cec9"></circle>
+            <path d="M-4.5 0.5l3 3 6-6.5" fill="none" stroke="#0e7c66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+        ))}
+        <g transform="translate(131 478)">
+          <circle r="11" fill="#fff" stroke="#c3cec9"></circle>
+          <path d="M-4.5 0.5l3 3 6-6.5" fill="none" stroke="#0e7c66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+        <g transform="translate(262 480)">
+          <circle r="11" fill="#fff" stroke="#e2bcbc"></circle>
+          <path d="M-4 -4l8 8M4 -4l-8 8" stroke="#b44a4a" stroke-width="2" stroke-linecap="round"></path>
+        </g>
+        <g transform="translate(372 330)">
+          <rect x="-24" y="-11" width="48" height="22" rx="11" fill="#fff" stroke="#e2bcbc"></rect>
+          <text y="4" text-anchor="middle" class="wf__tiny" fill="#b44a4a">{copy.rejects}</text>
+        </g>
+
+        <!-- Déclencheur -->
+        <g transform={`translate(${cx} 34)`}>
+          <rect x="-92" y="-22" width="196" height="44" rx="22" fill="#f2f5f4" stroke="#c3cec9" stroke-dasharray="4 4"></rect>
+          <circle cx="-66" r="10" fill="none" stroke="#7d918b" stroke-width="1.6"></circle>
+          <path d="M-76 0h20M-66 -10c-6 6-6 14 0 20M-66 -10c6 6 6 14 0 20" fill="none" stroke="#7d918b" stroke-width="1.3"></path>
+          <text x="-48" y="-3" class="wf__label">Webhook trigger</text>
+          <text x="-48" y="12" class="wf__adaptor">LIS · on each request</text>
+        </g>
+
+        <!-- Étapes -->
+        {
+          nodes.map((n) => (
+            <g transform={`translate(${n.x} ${n.y})`} class="wf__node">
+              <rect width={W} height={H} rx="12" fill="#fff" stroke={n.ko ? '#e2bcbc' : '#c3cec9'}></rect>
+              <rect x="9" y="9" width="40" height="40" rx="9" fill={n.ko ? '#b44a4a' : n.b === 'DHIS2' ? '#0f2a24' : '#0e7c66'}></rect>
+              <text x="29" y={n.b.length > 3 ? 33 : 34} text-anchor="middle" class={n.b.length > 3 ? 'wf__badge wf__badge--sm' : 'wf__badge'}>{n.b}</text>
+              <text x="60" y="27" class="wf__label">{n.t}</text>
+              <text x="60" y="44" class="wf__adaptor">{n.a}</text>
+            </g>
+          ))
+        }
+      </svg>
+      <figcaption class="mono wf__caption">{copy.caption}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .wf__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+    gap: 64px;
+    align-items: center;
+  }
+  .wf__points {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .wf__points li {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .wf__num {
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .wf__points strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .wf__points span:not(.wf__num) {
+    color: var(--ink-3);
+  }
+  .wf__figure {
+    margin: 0;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px 20px;
+    background-image: radial-gradient(#d3dbd8 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+  .wf__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+  .wf__caption {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+  }
+  .wf__label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14.5px;
+    fill: #12201c;
+  }
+  .wf__adaptor {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    fill: #6b7d77;
+  }
+  .wf__badge {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 13px;
+    fill: #fff;
+  }
+  .wf__badge--sm {
+    font-size: 10.5px;
+  }
+  .wf__tiny {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+  }
+  .wf__flow {
+    stroke: #0e7c66;
+    stroke-dasharray: 6 6;
+    animation: wf-flow 1.6s linear infinite;
+  }
+  @keyframes wf-flow {
+    to {
+      stroke-dashoffset: -24;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wf__flow {
+      animation: none;
+    }
+  }
+  @media (max-width: 900px) {
+    .wf__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .wf__figure {
+      padding: 20px 12px 16px;
+    }
+  }
+</style>

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import WorkflowSection from '../components/WorkflowSection.astro';
 import { expertise, references } from '../data';
 import { site } from '../data/site';
 import { routes, ui, type Lang } from '../i18n';
@@ -178,6 +179,9 @@ const statValues = ['10+', '13', '300+', '500+'];
       </ul>
     </div>
   </section>
+
+  <!-- INTEROPÉRABILITÉ : exemple de workflow -->
+  <WorkflowSection lang={lang} />
 
   <!-- EXPERTISE -->
   <section class="section container stack" style="--gap: 48px">
