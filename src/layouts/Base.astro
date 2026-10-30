@@ -45,6 +45,9 @@ const alternates = page === 'notFound' ? [] : (['fr', 'en'] as Lang[]).map((l) =
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+
+    <!-- Cloudflare Web Analytics : mesure d'audience anonyme, sans cookies -->
+    <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "28dfeec173bf49beab4fd2f6467ca138"}'></script>
   </head>
   <body>
     <a class="skip-link" href="#contenu">{t.skip}</a>
