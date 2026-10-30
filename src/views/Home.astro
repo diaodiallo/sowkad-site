@@ -8,7 +8,6 @@ import { site } from '../data/site';
 import { routes, ui, type Lang } from '../i18n';
 
 import portraitStudio from '../assets/photos/portrait-studio.jpg';
-import portraitBuste from '../assets/photos/portrait-buste.jpg';
 import formation from '../assets/photos/formation.jpg';
 import bokeEquipes from '../assets/photos/boke-equipes.jpg';
 import bokeCentre from '../assets/photos/boke-centre-sante.jpg';
@@ -44,6 +43,7 @@ const copy = {
     fieldEyebrow: 'Sur le terrain',
     fieldH2: 'Au plus près des équipes qui utilisent les données.',
     terrain: [
+      ['Formation sur l’interopérabilité à Madagascar', 'Formation sur l’interopérabilité · Madagascar, 2026'],
       ['Appui aux agents de santé sur la saisie des données à Boké', 'Appui aux équipes de santé · Boké, Guinée, 2025'],
       ['Visite d’un centre de santé à Boké avec le personnel', 'Visite d’un centre de santé · Boké, Guinée, 2025'],
       ['Atelier de surveillance à base d’événements avec l’ANSS à Kindia', 'Appui à l’ANSS Guinée · atelier SBE, Kindia, 2026'],
@@ -53,20 +53,6 @@ const copy = {
     refH2: 'Missions récentes',
     countries: "Pays d'intervention",
     refMore: 'Toutes les références →',
-    founderEyebrow: 'Le fondateur',
-    founderAlt: `${site.founder} animant une session de formation`,
-    founderText:
-      "Ingénieur en santé numérique et interopérabilité, il a dirigé le premier déploiement national de DHIS2 en Guinée et accompagne depuis plus de dix ans des programmes des ministères de la Santé en Afrique de l'Ouest, du Centre et de l'Est. Il est titulaire d'un Master en Intelligence artificielle pour la santé publique (Aix-Marseille Université).",
-    creds: ["Administration serveur DHIS2, Université d'Oslo", 'FHIR Fundamentals & Intermediate, HL7', 'Master IA pour la santé publique, AMU'],
-    founderMore: 'Lire le parcours complet →',
-    teamEyebrow: 'Équipe',
-    teamH2: 'Une équipe qui grandit avec ses missions.',
-    portraitAlt: `Portrait de ${site.founder}`,
-    founderRole: 'Fondateur · Directeur technique',
-    join: 'Rejoindre Sowkad',
-    joinText:
-      "Ingénieur·e DHIS2, data scientist ou spécialiste en santé publique ? Nous constituons un réseau d'experts en Afrique.",
-    joinCta: 'Envoyer une candidature →',
     ctaH2: 'Un projet de digitalisation du système de santé ?',
     ctaText: 'Évaluation, conception, interopérabilité ou déploiement : parlons-en.',
     ctaBtn: 'Nous écrire',
@@ -91,6 +77,7 @@ const copy = {
     fieldEyebrow: 'In the field',
     fieldH2: 'Working alongside the teams who use the data.',
     terrain: [
+      ['Interoperability training in Madagascar', 'Interoperability training · Madagascar, 2026'],
       ['Supporting health workers with data entry in Boké', 'Supporting health teams · Boké, Guinea, 2025'],
       ['Visiting a health centre in Boké with its staff', 'Health centre visit · Boké, Guinea, 2025'],
       ['Event-based surveillance workshop with ANSS in Kindia', 'Supporting ANSS Guinea · EBS workshop, Kindia, 2026'],
@@ -100,19 +87,6 @@ const copy = {
     refH2: 'Recent assignments',
     countries: 'Countries of operation',
     refMore: 'Full track record →',
-    founderEyebrow: 'The founder',
-    founderAlt: `${site.founder} leading a training session`,
-    founderText:
-      "A digital health and interoperability engineer, he led Guinea's first national DHIS2 rollout and has supported ministry of health programmes across West, Central and East Africa for more than ten years. He holds a Master's degree in Artificial Intelligence for Public Health (Aix-Marseille University).",
-    creds: ['DHIS2 Server Administration, University of Oslo', 'FHIR Fundamentals & Intermediate, HL7', "Master's in AI for Public Health, AMU"],
-    founderMore: 'Read the full profile →',
-    teamEyebrow: 'Team',
-    teamH2: 'A team that grows with its assignments.',
-    portraitAlt: `Portrait of ${site.founder}`,
-    founderRole: 'Founder · Technical Director',
-    join: 'Join Sowkad',
-    joinText: 'DHIS2 engineer, data scientist or public health specialist? We are building a network of experts across Africa.',
-    joinCta: 'Send an application →',
     ctaH2: 'Planning to digitise a health system?',
     ctaText: "Assessment, design, interoperability or rollout: let's talk.",
     ctaBtn: 'Get in touch',
@@ -120,6 +94,7 @@ const copy = {
 }[lang];
 
 const terrainPhotos = [
+  { src: formation, pos: '30% 40%', wide: true },
   { src: bokeEquipes, pos: '50% 50%' },
   { src: bokeCentre, pos: '50% 50%' },
   { src: kindia, pos: '50% 35%' },
@@ -213,10 +188,10 @@ const statValues = ['10+', '13', '300+', '500+'];
       <p class="eyebrow">{copy.fieldEyebrow}</p>
       <h2 class="h2" style="font-size: clamp(28px, 3vw, 40px)">{copy.fieldH2}</h2>
     </div>
-    <div class="grid-cards" style="--min: 260px; --gap: 16px">
+    <div class="terrain__grid">
       {
         terrainPhotos.map((t, i) => (
-          <figure class="terrain__item">
+          <figure class:list={['terrain__item', { 'terrain__item--wide': t.wide }]}>
             <div class="photo terrain__photo">
               <Image
                 src={t.src}
@@ -259,46 +234,6 @@ const statValues = ['10+', '13', '300+', '500+'];
         <ul class="chips">{refs.countries.map((c) => <li class="chip">{c}</li>)}</ul>
       </div>
       <a href={r('references')} class="link-arrow" style="color: var(--accent-light)">{copy.refMore}</a>
-    </div>
-  </section>
-
-  <!-- FONDATEUR -->
-  <section class="section container split founder" style="--gap: 56px">
-    <div class="photo founder__photo">
-      <Image src={formation} alt={copy.founderAlt} widths={[480, 760, 1100]} sizes="(max-width: 900px) 100vw, 520px" style="object-position: 30% 40%" />
-    </div>
-    <div class="founder__text stack" style="--gap: 22px">
-      <p class="eyebrow">{copy.founderEyebrow}</p>
-      <h2 class="h2" style="font-size: clamp(30px, 3.2vw, 44px)">{site.founder}</h2>
-      <p class="lead">{copy.founderText}</p>
-      <ul class="founder__creds">{copy.creds.map((c) => <li>{c}</li>)}</ul>
-      <a href={r('founder')} class="link-arrow">{copy.founderMore}</a>
-    </div>
-  </section>
-
-  <!-- EQUIPE -->
-  <section class="section section--white">
-    <div class="container stack" style="--gap: 36px">
-      <div class="stack" style="--gap: 14px; max-width: 680px">
-        <p class="eyebrow">{copy.teamEyebrow}</p>
-        <h2 class="h2" style="font-size: clamp(30px, 3.2vw, 44px)">{copy.teamH2}</h2>
-      </div>
-      <div class="grid-cards" style="--min: 240px">
-        <div class="card" style="padding: 20px">
-          <div class="photo" style="height: 220px; border-radius: var(--radius-sm)">
-            <Image src={portraitBuste} alt={copy.portraitAlt} widths={[320, 640]} sizes="(max-width: 640px) 100vw, 480px" style="object-position: 50% 5%" />
-          </div>
-          <div>
-            <strong class="team-name">{site.founder}</strong>
-            <p class="small muted">{copy.founderRole}</p>
-          </div>
-        </div>
-        <div class="card card--dashed" style="justify-content: center; min-height: 280px">
-          <strong class="team-name" style="font-size: 20px">{copy.join}</strong>
-          <p class="small" style="color: var(--ink-2)">{copy.joinText}</p>
-          <a href={`${r('team')}#candidature`} class="link-arrow small">{copy.joinCta}</a>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -441,9 +376,30 @@ const statValues = ['10+', '13', '300+', '500+'];
     flex-direction: column;
     gap: 10px;
   }
+  .terrain__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .terrain__item--wide {
+    grid-column: span 2;
+  }
   .terrain__photo {
     height: 300px;
     border-radius: 18px;
+  }
+  @media (max-width: 900px) {
+    .terrain__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 600px) {
+    .terrain__grid {
+      grid-template-columns: 1fr;
+    }
+    .terrain__item--wide {
+      grid-column: auto;
+    }
   }
 
   .missions {
@@ -487,40 +443,6 @@ const statValues = ['10+', '13', '300+', '500+'];
     color: var(--dark-text);
   }
 
-  .founder {
-    align-items: center;
-  }
-  .founder__photo {
-    flex: 1 1 360px;
-    min-width: 0;
-    height: 460px;
-    border-radius: 24px;
-  }
-  .founder__text {
-    flex: 999 1 460px;
-    min-width: 0;
-  }
-  .founder__creds {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px 24px;
-    font-size: 15px;
-  }
-  .founder__creds li::before {
-    content: '—';
-    color: var(--accent);
-    font-weight: 700;
-    margin-right: 10px;
-  }
-
-  .team-name {
-    font-family: var(--font-display);
-    font-size: 18px;
-  }
-
   @media (max-width: 640px) {
     .hero {
       padding-block: 32px 56px;
@@ -528,9 +450,6 @@ const statValues = ['10+', '13', '300+', '500+'];
     }
     .hero__photo {
       min-height: 520px;
-    }
-    .founder__photo {
-      height: 320px;
     }
   }
 </style>
